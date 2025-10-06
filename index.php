@@ -43,6 +43,15 @@
         'Your Great Work' => 'yourgreatwork'
     ];
 
+    $folder_labels = array_flip($folders);
+
+    $variety_groups = [
+        'cambium' => ['group' => 'cambium', 'order' => 0],
+        'cambium2' => ['group' => 'cambium', 'order' => 1],
+        'waylemap' => ['group' => 'waylemap', 'order' => 0],
+        'waylemap2' => ['group' => 'waylemap', 'order' => 1]
+    ];
+
     function generateOptions($folders) {
         global $preloaded_miasma;
         
@@ -127,7 +136,21 @@
                         foreach ($files as $file) {
                             if (!in_array($file, ['.', '..']) && preg_match('/\.(jpg|jpeg|png|gif)$/i', $file)) {
                                 $slide_name = pathinfo($file, PATHINFO_FILENAME); ?>
-                                <div class="slider-item all <?=$folder?>" data-folder='<?=$folder?>'>
+                                <?
+                                    $variety_attributes = '';
+                                    if (isset($variety_groups[$folder])) {
+                                        $group = $variety_groups[$folder]['group'];
+                                        $order = $variety_groups[$folder]['order'];
+                                        $label = $folder_labels[$folder] ?? $folder;
+                                        $variety_attributes = sprintf(
+                                            " data-variety-group='%s' data-variety-order='%s' data-display-name='%s'",
+                                            htmlspecialchars($group, ENT_QUOTES),
+                                            htmlspecialchars((string)$order, ENT_QUOTES),
+                                            htmlspecialchars($label, ENT_QUOTES)
+                                        );
+                                    }
+                                ?>
+                                <div class="slider-item all <?=$folder?>" data-folder='<?=$folder?>'<?=$variety_attributes?>>
                                     <img src="<?="{$path}/{$file}"?>" data-slide="<?="{$folder}_{$slide_name}"?>" loading='lazy' class="zoom" data-magnify-src="<?="{$path}/{$file}"?>" />
                                 </div>
                         <?  }
