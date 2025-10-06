@@ -1,0 +1,17 @@
+{
+  "name": "miasma_viewer",
+  "version": "1.0.0",
+  "description": "Black Crown: Exhumed miasma viewer",
+  "main": "slideShow.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "terser main.js -o ./compiled/main.js -c",
+    "style": "sass --watch index.scss:./compiled/index.css"
+  },
+  "author": "Vael Victus (thanks to Raigen for getting it started)",
+  "license": "ISC",
+  "dependencies": {
+    "sass": "^1.69.5",
+    "terser": "^5.24.0"
+  }
+}

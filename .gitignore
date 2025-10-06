@@ -1,0 +1,23 @@
+# node
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# os cruft
+.DS_Store
+Thumbs.db
+
+# env/config
+.env
+.env.local
+
+# editors/ide
+.vscode/
+.idea/
+
+# archives
+*.zip
+*.tar
+*.tar.gz
+
+

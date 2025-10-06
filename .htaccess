@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteBase /miasma/
+
+# Remove trailing slash (only if not a directory)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/miasma/(.+)/$
+RewriteRule ^(.+)/$ /miasma/%1 [R=301,L]
+
+# Your existing rewrite rules (adjusted for subdirectory)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]

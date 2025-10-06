@@ -1,0 +1,416 @@
+// Variables
+$active: #910000;
+$red: #910000;
+$green: #295c3a;
+$grey: #667072;
+$dark-grey: #312b23;
+
+$font-stack-cursive: 'Noto Serif', cursive;
+$font-stack-sans: sans-serif;
+$black-color: black;
+$bg-texture: url(../img/textures/tactile-noise-dark.png);
+$box-shadow-color: rgba(49, 43, 35, 1);
+$transition-fast: 0.5s;
+$transition-slow: 2s;
+
+// Mixins
+@mixin box-shadow($values) {
+  box-shadow: $values;
+}
+
+// Reset
+* {
+  box-sizing: border-box;
+}
+
+.bc_red {
+  color: $red;
+  font-weight: bold;
+}
+
+html, body {
+  margin: 0; padding: 0;
+  height: 100%; width: 100%;
+  font-size: 14px;
+}
+
+section {
+  width: 100%;
+}
+
+// make site prettier but less accessible
+*:focus {
+  outline: none;
+}
+
+// Body styling
+body {
+  // display: grid; grid-template: 1fr 1fr 1fr 1fr / 1fr;
+
+  padding-bottom: 50px;
+  
+  background: $black-color;
+  font: {
+    family: $font-stack-cursive;
+  }
+}
+
+// Element styling
+.btn:focus, button:focus, input:focus, textarea:focus, select:focus{
+  outline: none;
+}
+
+.btn {
+  // * Structure * //
+  display: inline-flex; align-items: center; 
+  justify-content: center; // just for buttons in Outside
+
+  cursor: pointer;
+  touch-action: manipulation;
+  align-items: flex-start;
+  text-decoration: none;
+
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 6px 12px;
+  letter-spacing: 0.03em; white-space: normal;
+  
+  font-size: 16px; font-weight: bold;
+
+  color: #fff !important;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.75);
+
+  position: relative; /* Needed for pseudo-element */
+  overflow: hidden; /* Hide the overflow of the pseudo-element */
+  transition: transform 0.25s, background-color .2s ease-out, filter 0.1s;
+  
+  img {
+      width: 24px; height: 24px;
+      filter: invert(1);
+  }
+
+  &.big {
+      font-size: 20px;
+      padding: 8px 18px 8px 18px;
+
+      img {
+          width: 30px; height: 30px;
+          filter: invert(1);
+      }
+  }
+
+  &:active {
+      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.75), 
+                  0px 0px 1px rgba(0, 0, 0, 0.9) inset;
+      transform: translateY(1px);
+  }
+
+  &:disabled {
+      filter: grayscale(100%);
+      cursor: not-allowed;
+      border-color: #cccccc;
+      box-shadow: none;
+      opacity: 0.75;
+  }
+}
+
+.btn {
+  // BORDER: 1px solid #6f0101;
+  BORDER: 1px solid #520000;
+  background: #bc0000;
+  background: linear-gradient(to bottom, #bc0000 0%, $active 40%, #750000 60%, #630000 100%);
+  text-shadow: 0px 0px 2px #000;
+  font-size: 14px; font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.btn.big {
+  font-size: 17px;
+}
+  
+// this gives the button a white sheen at the bottom for PRESTIGE!!
+.btn::before {
+  content: ""; pointer-events: none;
+  position: absolute; bottom: 0; right: 0;
+  width: 100%; height: 25%;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.13), transparent);
+}
+
+// a button in which a href lives will have the external icon thing k?
+button {
+  a::after {
+      content: '' !important; margin: 0 !important;
+  }
+}
+
+div, .open {
+  border-radius: 0;
+}
+
+img {
+  height: 100%; width: 100%;
+  max-height: 100%; max-width: 100%;
+}
+
+#miasma_selector {
+  display: grid; place-items: center;
+  text-align: center;
+  margin-bottom: 5px;
+
+  select {
+    font: {
+      family: $font-stack-sans;
+      weight: bold;
+      size: large;
+    }
+    background-color: $grey;
+    color: $black-color;
+    border: 2px solid $black-color;
+    border-radius: 1px;
+    padding: 8px 10px;
+    margin: 5px 5px 5px 5px;
+    cursor: pointer;
+  }
+}
+
+#choose_miasma {
+  color: white; text-align: center;
+  padding: 0 10px;
+}
+
+#folderSelect {
+  max-width: 90vw;
+}
+
+#variety_switcher {
+  display: none;
+  margin: 15px auto;
+  text-align: center;
+  width: 100%;
+}
+
+.open {
+  position: fixed; /* or absolute, depending on your layout */
+  top: 0;
+  left: 0; /* Initial position */
+  transition: left 0.3s; /* Change the transition time as needed */
+  z-index: 100; /* Make sure this is higher than the sidebar if using fixed positioning */
+  font-size: 20px;
+  cursor: pointer;
+  background-color: lighten(desaturate($red, 30%), 25%);
+  color: white;
+  padding: 10px 15px;
+  border: 2px solid $red;
+}
+
+.red {
+  color: $red; font-weight: bold;
+}
+
+.disabled-button {
+  DISPLAY: NONE;
+
+
+  pointer-events: none; /* Disable click events */
+  cursor: default; /* Change cursor to default to indicate non-activity */
+
+  img {
+    display: none;
+  }
+
+  &.prev_button, &.next_button, &#prevSlide, &#nextSlide {
+    box-shadow: none;
+  }
+
+  // &::after {
+  //   color: white;
+  //   content: "This button is disabled";
+  //   display: block;
+  // }
+}
+
+#notes {
+  max-width: 750px;
+  // margin: 25px auto 0 auto;
+  margin: 25px auto 0 auto;
+  flex-basis: 100%;
+  background: $bg-texture;
+  color: white;
+  transition: ease $transition-slow;
+  height: auto; // Set height to auto
+
+  h2 {
+    display: block; background: rgba(0, 0, 0, .25);
+    padding: 5px 0; margin: 0;
+    color: $red; text-align: center;
+  }
+
+  p {
+    padding: 5px; margin: 2px;
+  }
+}
+
+.button {
+  height: 100%; width: 100%;
+}
+
+.slider, .thumbnail, .thumbnail2 {
+  display: inline-block;
+  position: relative;
+  @include box-shadow(0 0 15px 2px $box-shadow-color);
+
+  &.slider {
+    // min-height: 525px;
+    // width: 700px;
+  }
+
+  &.thumbnail, &.thumbnail2 {
+    height: 150px;
+    width: 150px;
+    margin-top: 150px;
+  }
+
+  img {
+    cursor: pointer;
+  }
+}
+
+#slider_container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+/* Style the tab */
+.tabs {
+  overflow: hidden;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+/* Style the buttons inside the tab */
+.tabs button {
+  background: transparent;
+  color: $grey; font-size: 15px;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+
+  transition: background 0.3s;
+}
+
+.tabs button.active {
+  color: $red; font-weight: bold;
+  text-decoration: underline;
+  background: rgba(0, 0, 0, .25);
+}
+
+.tabs button:hover {
+  color: $red; text-decoration: underline;
+  background: rgba(0, 0, 0, .25);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 9px 12px;
+  backdrop-filter: blur(2px);
+}
+
+.slider-item {
+  height: 100%; width: 100%;
+  min-height: 300px; // stops flash on new img download
+  display: none;
+  transition: transform $transition-slow;
+
+  &.active,
+  &.prev-item,
+  &.next-item {
+    display: block;
+  }
+}
+
+.readable {
+  cursor: pointer;
+}
+
+#mobile_view {
+  margin-top: 10px;
+  display: none;
+  justify-content: space-around;
+}
+
+.prev_button, .next_button {
+  display: none;
+  height: 150px;
+  width: 50%;
+  cursor: pointer;
+
+  @media only screen and (max-width: 820px) {
+    display: inline-block;
+    @include box-shadow(0 0 15px 2px $box-shadow-color);
+  }
+}
+
+.magnify-lens {
+  width: 100px !important; height: 100px !important;
+  transform: scale(1.4) !important;
+}
+
+#player_notes {
+  min-height: 250px;
+}
+
+@media only screen and (max-width: 820px) {
+  #mobile_view {
+    display: flex; min-height: 185px;
+  }
+  #main_slider {
+    height: 98%;
+  }
+  #choose_miasma {
+    text-align: left;
+  }
+  .thumbnail_slider {
+    display: none;
+  }
+  #slider_container {
+    display: flex;
+    flex-direction: column; // Stack items vertically
+    justify-content: center; // Center items vertically
+    align-items: center; // Center items horizontally
+  }
+  
+  .slider {
+    height: calc(100vh - 150px); // Adjust height to fill the space minus the height of buttons
+    width: 95vw;
+    position: relative;
+  }
+
+  .prev_button, .next_button {
+    display: block; // Show the buttons
+    height: 100%; // Set a fixed height for buttons
+    width: 100%; // Full width of the container
+  }
+
+  #mobile_grid {
+    display: grid; grid-gap: 0 10px; grid-template: 1fr / 1fr 1fr;
+    min-height: 185px;
+  }
+
+  .magnify {
+    pointer-events: none; // Disable click events
+  }
+}
+
+// desktop media query. anything over 820px max width
+@media only screen and (min-width: 821px) {
+  // img.zoom-effect {
+  //   transition: transform 0.4s ease; /* Smooth transition for the zoom effect */
+  //   display: block; /* Display block to avoid inline extra space */
+  // }
+
+  // img.zoom-effect:hover {
+  //   transform: scale(1.1); /* Scale up the image to 120% when hovering */
+  // }
+}
