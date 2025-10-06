@@ -36,34 +36,6 @@
         element.addEventListener(event, handler);
     }
 
-    function parseTimeExpression(value) {
-        if (typeof value !== 'string') {
-            return 0;
-        }
-        const trimmed = value.trim();
-        if (trimmed.endsWith('ms')) {
-            return parseFloat(trimmed);
-        }
-        if (trimmed.endsWith('s')) {
-            return parseFloat(trimmed) * 1000;
-        }
-        return 0;
-    }
-
-    function getTransitionDurationMs(element) {
-        if (!element) {
-            return 0;
-        }
-        const styles = window.getComputedStyle(element);
-        const durations = styles.transitionDuration.split(',').map(parseTimeExpression);
-        const delays = styles.transitionDelay.split(',').map(parseTimeExpression);
-        const transitions = durations.map((duration, index) => {
-            const delay = delays[index] ?? delays[delays.length - 1] ?? 0;
-            return duration + delay;
-        });
-        return transitions.length ? Math.max(...transitions) : 0;
-    }
-
     async function loadNotes(miasma) {
         const { gameNotes } = state.dom;
         if (!gameNotes) {
@@ -193,24 +165,10 @@
                 this.setIndices();
             };
 
-            const handleTransitionEnd = (event) => {
-                if (event.target !== activeSlide) {
-                    return;
-                }
-                activeSlide.removeEventListener('transitionend', handleTransitionEnd);
-                window.clearTimeout(fallbackTimer);
-                finalize();
-            };
-
             incomingSlide.classList.add(actionClasses[0], 'active');
             activeSlide.classList.add(actionClasses[1]);
 
-            const fallbackTimer = window.setTimeout(() => {
-                activeSlide.removeEventListener('transitionend', handleTransitionEnd);
-                finalize();
-            }, getTransitionDurationMs(activeSlide) + 50);
-
-            activeSlide.addEventListener('transitionend', handleTransitionEnd);
+            window.setTimeout(finalize, 16);
         }
 
         next() {
