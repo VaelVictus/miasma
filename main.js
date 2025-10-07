@@ -197,7 +197,7 @@
         wrapper.setAttribute('role', 'listitem');
 
         const playButton = document.createElement('button');
-        playButton.className = 'audio-play';
+        playButton.classList.add('btn', 'audio-play');
         playButton.type = 'button';
         playButton.textContent = 'Play';
         playButton.setAttribute('aria-label', `Play ${file.displayName}`);
