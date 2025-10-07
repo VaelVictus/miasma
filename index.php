@@ -73,14 +73,18 @@
     ob_start();
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="utf-8" />
         <link rel="stylesheet" href="./compiled/index.css?m=<?=time()?>" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./compiled/magnify.min.css" />
         <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1" />
+        <title>Miasma Viewer | Black Crown: Exhumed</title>
+        <meta name="description" content="Browse Black Crown: Exhumed miasma specimens with zoomable imagery, notes, and audio." />
 
         <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
@@ -95,11 +99,12 @@
         <meta property="og:url" content="https://blackcrownexhumed.com/miasma_viewer" />
         <meta property="og:site_name" content="Miasma Viewer" />
 
-        <script src="./compiled/jquery-2.2.4.min.js"></script>
-        <script src="./compiled/jquery.magnify.min.js"></script>
+        <script src="./compiled/jquery-2.2.4.min.js" defer></script>
+        <script src="./compiled/jquery.magnify.min.js" defer></script>
     </head>
     <body data-current-miasma="<?=$preloaded_miasma?>">
         <section id='miasma_selector'>
+            <label for="folderSelect" class="sr-only">Choose a miasma specimen</label>
             <select id="folderSelect" onchange="changeFolder(this.value)">
                 <option value="">Select a Specimen</option>
                 <?=generateOptions($folders)?>
@@ -197,7 +202,7 @@
         <div style='height: 50px; width: 100%;'>
         </div>
 
-        <script src="compiled/main.js?modified=<?=time()?>"></script>
+        <script src="compiled/main.js?modified=<?=time()?>" defer></script>
     </body>
 </html>
 <?
