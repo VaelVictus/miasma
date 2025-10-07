@@ -573,9 +573,15 @@
                 groups.set(groupKey, { entries: [], currentIndex: 0 });
             }
 
-            const group = groups.get(groupKey);
-            group.entries.push({ folder, label, order });
             folderToGroup.set(folder, groupKey);
+
+            const group = groups.get(groupKey);
+            const hasEntry = group.entries.some(entry => entry.folder === folder);
+            if (hasEntry) {
+                return;
+            }
+
+            group.entries.push({ folder, label, order });
         });
 
         groups.forEach((group) => {
