@@ -111,7 +111,7 @@
             
             <p>Upon selection of a specimen, the miasma will be laid bare.</p>
             <p>Navigate the miasma by clicking the next and previous image previews.</p>
-            <p>You may also use your keyboard's arrow keys, if your digits can articulate adequately.</p>
+            <p>You may also use your keyboard's arrow keys, supposing your digits articulate.</p>
 
             <div style='margin-top: 25px;'>
                 <a href='https://blackcrownexhumed.com'>
