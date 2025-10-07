@@ -9,6 +9,11 @@
         variety: {
             groups: new Map(),
             folderToGroup: new Map()
+        },
+        audio: {
+            controller: null,
+            currentTrack: null,
+            tracks: []
         }
     };
 
@@ -72,6 +77,252 @@
         } finally {
             if (state.notesController === controller) {
                 state.notesController = null;
+            }
+        }
+    }
+
+    function stopCurrentAudio() {
+        if (!state.audio.currentTrack) {
+            return;
+        }
+
+        const { audio, playButton, progressBar, timeLabel, label } = state.audio.currentTrack;
+        audio.pause();
+        audio.currentTime = 0;
+        playButton.textContent = 'Play';
+        playButton.setAttribute('aria-label', `Play ${label}`);
+        progressBar.style.transform = 'scaleX(0)';
+        timeLabel.textContent = '0:00';
+        state.audio.currentTrack.element.classList.remove('playing');
+        state.audio.currentTrack = null;
+    }
+
+    function resetAudioState(message) {
+        const audioDom = state.dom.audio;
+        if (!audioDom || !audioDom.container) {
+            return;
+        }
+
+        if (state.audio.controller) {
+            state.audio.controller.abort();
+            state.audio.controller = null;
+        }
+
+        stopCurrentAudio();
+        state.audio.tracks = [];
+
+        audioDom.container.innerHTML = '';
+        const placeholder = document.createElement('p');
+        placeholder.className = 'audio-placeholder';
+        placeholder.textContent = message;
+        audioDom.container.appendChild(placeholder);
+
+        if (audioDom.tabButton) {
+            audioDom.tabButton.dataset.hasAudio = 'false';
+        }
+    }
+
+    function formatTime(seconds) {
+        if (!Number.isFinite(seconds)) {
+            return '0:00';
+        }
+
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    function setTrackPlayingState(track, isPlaying) {
+        if (!track) {
+            return;
+        }
+
+        track.element.classList.toggle('playing', isPlaying);
+        track.playButton.textContent = isPlaying ? 'Pause' : 'Play';
+        const action = isPlaying ? 'Pause' : 'Play';
+        track.playButton.setAttribute('aria-label', `${action} ${track.label}`);
+    }
+
+    function bindTrackEvents(track) {
+        const { audio, playButton, progressBar, timeLabel } = track;
+
+        playButton.addEventListener('click', () => {
+            if (!audio.paused) {
+                audio.pause();
+                return;
+            }
+
+            if (state.audio.currentTrack && state.audio.currentTrack !== track) {
+                stopCurrentAudio();
+            }
+
+            audio.play().catch((error) => {
+                console.error('Failed to play audio track:', error);
+            });
+        });
+
+        audio.addEventListener('play', () => {
+            if (state.audio.currentTrack && state.audio.currentTrack !== track) {
+                stopCurrentAudio();
+            }
+            state.audio.currentTrack = track;
+            setTrackPlayingState(track, true);
+        });
+
+        audio.addEventListener('pause', () => {
+            if (state.audio.currentTrack === track) {
+                setTrackPlayingState(track, false);
+                state.audio.currentTrack = null;
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const { currentTime, duration } = audio;
+            const progress = duration ? currentTime / duration : 0;
+            progressBar.style.transform = `scaleX(${progress})`;
+            timeLabel.textContent = formatTime(currentTime);
+        });
+
+        audio.addEventListener('ended', () => {
+            progressBar.style.transform = 'scaleX(0)';
+            timeLabel.textContent = '0:00';
+            setTrackPlayingState(track, false);
+            state.audio.currentTrack = null;
+        });
+    }
+
+    function createAudioTrack(file) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'audio-track';
+        wrapper.setAttribute('role', 'listitem');
+
+        const playButton = document.createElement('button');
+        playButton.className = 'audio-play';
+        playButton.type = 'button';
+        playButton.textContent = 'Play';
+        playButton.setAttribute('aria-label', `Play ${file.displayName}`);
+
+        const details = document.createElement('div');
+        details.className = 'audio-details';
+
+        const title = document.createElement('div');
+        title.className = 'audio-title';
+        title.textContent = file.displayName;
+
+        const progress = document.createElement('div');
+        progress.className = 'audio-progress';
+
+        const progressBar = document.createElement('div');
+        progressBar.className = 'audio-progress-bar';
+        progress.appendChild(progressBar);
+
+        const timeLabel = document.createElement('div');
+        timeLabel.className = 'audio-time';
+        timeLabel.textContent = '0:00';
+
+        const audio = document.createElement('audio');
+        audio.src = encodeURI(file.path);
+        audio.preload = 'none';
+
+        details.appendChild(title);
+        details.appendChild(progress);
+
+        wrapper.appendChild(playButton);
+        wrapper.appendChild(details);
+        wrapper.appendChild(timeLabel);
+        wrapper.appendChild(audio);
+
+        const track = { element: wrapper, playButton, audio, progressBar, timeLabel, label: file.displayName };
+        bindTrackEvents(track);
+        return track;
+    }
+
+    function renderAudioTracks(files) {
+        const audioDom = state.dom.audio;
+        if (!audioDom || !audioDom.container) {
+            return;
+        }
+
+        audioDom.container.innerHTML = '';
+        state.audio.tracks = [];
+
+        if (!Array.isArray(files) || !files.length) {
+            const placeholder = document.createElement('p');
+            placeholder.className = 'audio-placeholder';
+            placeholder.textContent = 'No audio is currently available for this miasma.';
+            audioDom.container.appendChild(placeholder);
+            if (audioDom.tabButton) {
+                audioDom.tabButton.dataset.hasAudio = 'false';
+            }
+            return;
+        }
+
+        if (audioDom.tabButton) {
+            audioDom.tabButton.dataset.hasAudio = 'true';
+        }
+
+        files.forEach((file) => {
+            const track = createAudioTrack(file);
+            state.audio.tracks.push(track);
+            audioDom.container.appendChild(track.element);
+        });
+    }
+
+    async function loadAudio(miasma) {
+        const audioDom = state.dom.audio;
+        if (!audioDom || !audioDom.container) {
+            return;
+        }
+
+        stopCurrentAudio();
+
+        if (state.audio.controller) {
+            state.audio.controller.abort();
+        }
+
+        const controller = new AbortController();
+        state.audio.controller = controller;
+
+        audioDom.container.innerHTML = '';
+        const loading = document.createElement('p');
+        loading.className = 'audio-placeholder';
+        loading.textContent = 'Scanning for audio…';
+        audioDom.container.appendChild(loading);
+
+        try {
+            const response = await fetch(`audio.php?miasma=${encodeURIComponent(miasma)}`, {
+                signal: controller.signal
+            });
+
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${response.status}`);
+            }
+
+            const payload = await response.json();
+
+            if (controller.signal.aborted) {
+                return;
+            }
+
+            const files = Array.isArray(payload?.files) ? payload.files : [];
+            renderAudioTracks(files);
+        } catch (error) {
+            if (controller.signal.aborted) {
+                return;
+            }
+
+            console.error(`Failed to load audio for "${miasma}":`, error);
+            const errorMessage = document.createElement('p');
+            errorMessage.className = 'audio-error';
+            errorMessage.textContent = 'Audio failed to load. Please try again later.';
+            audioDom.container.innerHTML = '';
+            audioDom.container.appendChild(errorMessage);
+            if (audioDom.tabButton) {
+                audioDom.tabButton.dataset.hasAudio = 'false';
+            }
+        } finally {
+            if (state.audio.controller === controller) {
+                state.audio.controller = null;
             }
         }
     }
@@ -275,6 +526,11 @@
             chooseMiasma: getByIdRequired('choose_miasma'),
             notes: getByIdRequired('notes'),
             gameNotes: getByIdRequired('game_notes'),
+            audio: {
+                container: getByIdRequired('audio_container'),
+                tabButton: document.getElementById('audio_notes_tab'),
+                tabContent: document.getElementById('audio_notes')
+            },
             folderSelect: getByIdRequired('folderSelect'),
             varietySwitcher: getByIdRequired('variety_switcher'),
             switchVariety: document.getElementById('switch_variety'),
@@ -286,7 +542,13 @@
             },
             tabs: {
                 game: document.getElementById('game_notes_tab'),
+                audio: document.getElementById('audio_notes_tab'),
                 player: document.getElementById('player_notes_tab')
+            },
+            tabContents: {
+                game: document.getElementById('game_notes'),
+                audio: document.getElementById('audio_notes'),
+                player: document.getElementById('player_notes')
             }
         };
     }
@@ -423,6 +685,13 @@
         toggleVarietySwitcher(normalizedFolder);
         if (normalizedFolder) {
             loadNotes(normalizedFolder);
+            if (normalizedFolder === 'all') {
+                resetAudioState('Select a single miasma to check for audio.');
+            } else {
+                loadAudio(normalizedFolder);
+            }
+        } else {
+            resetAudioState('Select a miasma to check for audio.');
         }
 
         document.body.setAttribute('data-current-miasma', normalizedFolder);
@@ -455,22 +724,30 @@
     }
 
     function openTab(evt, tabName) {
-        const { tabs } = state.dom;
-        if (!tabs) {
+        const { tabs, tabContents } = state.dom;
+        if (!tabs || !tabContents) {
             return;
         }
 
-        if (tabName === 'game_notes') {
-            $('#game_notes').show();
-            tabs.game?.classList.add('active');
-            $('#player_notes').hide();
-            tabs.player?.classList.remove('active');
-        } else if (tabName === 'player_notes') {
-            $('#game_notes').hide();
-            tabs.game?.classList.remove('active');
-            $('#player_notes').show();
-            tabs.player?.classList.add('active');
-        }
+        Object.entries(tabContents).forEach(([key, content]) => {
+            if (!content) {
+                return;
+            }
+
+            const isActive = content.id === tabName;
+            if (isActive) {
+                $(content).show();
+            } else {
+                $(content).hide();
+            }
+
+            content.classList.toggle('active', isActive);
+
+            const button = tabs[key];
+            if (button) {
+                button.classList.toggle('active', isActive);
+            }
+        });
     }
 
     function bindEventListeners() {
@@ -510,6 +787,7 @@
 
     function initialise() {
         state.dom = cacheDom();
+        resetAudioState('Select a miasma to check for audio.');
         buildVarietyGroups();
 
         state.slider = new Slider(state.dom.slider, {

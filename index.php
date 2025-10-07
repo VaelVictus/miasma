@@ -174,11 +174,18 @@
             
             <div class="tabs">
                 <button class="tablinks active" onclick="openTab(event, 'game_notes');" id="game_notes_tab" role="tab">Widsith</button>
+                <button class="tablinks" onclick="openTab(event, 'audio_notes');" id="audio_notes_tab" role="tab">Audio</button>
                 <button class="tablinks" onclick="openTab(event, 'player_notes');" id="player_notes_tab" role="tab">Clerk Notes</button>
             </div>
 
             <div id="game_notes" class="tabcontent active">
                 <? # Game-related notes go here. ?>
+            </div>
+
+            <div id="audio_notes" class="tabcontent">
+                <div id="audio_container" class="audio-panel" role="list">
+                    <p class="audio-placeholder" id="audio_placeholder">Select a miasma to check for audio.</p>
+                </div>
             </div>
 
             <div id="player_notes" class="tabcontent">
