@@ -189,7 +189,7 @@
 
             <div id="audio_notes" class="tabcontent">
                 <div id="audio_container" class="audio-panel" role="list">
-                    <p class="audio-placeholder" id="audio_placeholder">Select a miasma to check for audio.</p>
+                    <p class="audio-placeholder" id="audio_placeholder">Select a miasma to check for audio or sounds.</p>
                 </div>
             </div>
 
