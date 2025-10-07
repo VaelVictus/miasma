@@ -341,6 +341,27 @@ img {
   gap: 12px;
 }
 
+.audio-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.audio-section-title {
+  margin: 0;
+  font-family: $font-stack-sans;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f3f3f3;
+  font-size: 0.95rem;
+}
+
+.audio-tracklist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .audio-placeholder,
 .audio-error {
   margin: 0;

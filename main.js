@@ -237,7 +237,7 @@
         return track;
     }
 
-    function renderAudioTracks(files) {
+    function renderAudioSections(sections) {
         const audioDom = state.dom.audio;
         if (!audioDom || !audioDom.container) {
             return;
@@ -246,10 +246,12 @@
         audioDom.container.innerHTML = '';
         state.audio.tracks = [];
 
-        if (!Array.isArray(files) || !files.length) {
+        const hasSections = Array.isArray(sections) && sections.some((section) => Array.isArray(section?.files) && section.files.length);
+
+        if (!hasSections) {
             const placeholder = document.createElement('p');
             placeholder.className = 'audio-placeholder';
-            placeholder.textContent = 'No audio is currently available for this miasma.';
+            placeholder.textContent = 'No audio or sounds are currently available for this miasma.';
             audioDom.container.appendChild(placeholder);
             if (audioDom.tabButton) {
                 audioDom.tabButton.dataset.hasAudio = 'false';
@@ -261,10 +263,35 @@
             audioDom.tabButton.dataset.hasAudio = 'true';
         }
 
-        files.forEach((file) => {
-            const track = createAudioTrack(file);
-            state.audio.tracks.push(track);
-            audioDom.container.appendChild(track.element);
+        sections.forEach((section) => {
+            const files = Array.isArray(section?.files) ? section.files : [];
+            if (!files.length) {
+                return;
+            }
+
+            const sectionWrapper = document.createElement('div');
+            sectionWrapper.className = 'audio-section';
+            sectionWrapper.setAttribute('role', 'listitem');
+
+            if (section?.title) {
+                const title = document.createElement('h3');
+                title.className = 'audio-section-title';
+                title.textContent = section.title;
+                sectionWrapper.appendChild(title);
+            }
+
+            const trackList = document.createElement('div');
+            trackList.className = 'audio-tracklist';
+            trackList.setAttribute('role', 'list');
+
+            files.forEach((file) => {
+                const track = createAudioTrack(file);
+                state.audio.tracks.push(track);
+                trackList.appendChild(track.element);
+            });
+
+            sectionWrapper.appendChild(trackList);
+            audioDom.container.appendChild(sectionWrapper);
         });
     }
 
@@ -304,8 +331,14 @@
                 return;
             }
 
-            const files = Array.isArray(payload?.files) ? payload.files : [];
-            renderAudioTracks(files);
+            let sections = [];
+            if (Array.isArray(payload?.sections)) {
+                sections = payload.sections;
+            } else if (Array.isArray(payload?.files)) {
+                sections = [{ title: 'Transcriptions', files: payload.files }];
+            }
+
+            renderAudioSections(sections);
         } catch (error) {
             if (controller.signal.aborted) {
                 return;
@@ -692,12 +725,12 @@
         if (normalizedFolder) {
             loadNotes(normalizedFolder);
             if (normalizedFolder === 'all') {
-                resetAudioState('Select a single miasma to check for audio.');
+                resetAudioState('Select a single miasma to check for audio or sounds.');
             } else {
                 loadAudio(normalizedFolder);
             }
         } else {
-            resetAudioState('Select a miasma to check for audio.');
+            resetAudioState('Select a miasma to check for audio or sounds.');
         }
 
         document.body.setAttribute('data-current-miasma', normalizedFolder);
@@ -793,7 +826,7 @@
 
     function initialise() {
         state.dom = cacheDom();
-        resetAudioState('Select a miasma to check for audio.');
+        resetAudioState('Select a miasma to check for audio or sounds.');
         buildVarietyGroups();
 
         state.slider = new Slider(state.dom.slider, {
