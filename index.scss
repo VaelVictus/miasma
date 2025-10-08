@@ -442,6 +442,18 @@ img {
   text-align: right;
 }
 
+.audio-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.audio-download {
+  padding: 6px 14px;
+  white-space: nowrap;
+}
+
 .audio-track audio {
   display: none;
 }

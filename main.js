@@ -220,6 +220,18 @@
         timeLabel.className = 'audio-time';
         timeLabel.textContent = '0:00';
 
+        const downloadButton = document.createElement('a');
+        downloadButton.classList.add('btn', 'audio-download');
+        downloadButton.href = encodeURI(file.path);
+        downloadButton.download = file.filename || '';
+        downloadButton.textContent = 'Download';
+        downloadButton.setAttribute('aria-label', `Download ${file.displayName}`);
+
+        const meta = document.createElement('div');
+        meta.className = 'audio-meta';
+        meta.appendChild(timeLabel);
+        meta.appendChild(downloadButton);
+
         const audio = document.createElement('audio');
         audio.src = encodeURI(file.path);
         audio.preload = 'none';
@@ -229,7 +241,7 @@
 
         wrapper.appendChild(playButton);
         wrapper.appendChild(details);
-        wrapper.appendChild(timeLabel);
+        wrapper.appendChild(meta);
         wrapper.appendChild(audio);
 
         const track = { element: wrapper, playButton, audio, progressBar, timeLabel, label: file.displayName };
