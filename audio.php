@@ -21,9 +21,10 @@ $basePath = __DIR__ . DIRECTORY_SEPARATOR . 'object_data';
 /**
  * @param string $directory
  * @param string $publicPathPrefix
+ * @param bool   $useOrderPrefix sort by leading numeric prefix and strip it from display name
  * @return array<int, array{filename: string, displayName: string, path: string}>
  */
-function collectAudioFiles(string $directory, string $publicPathPrefix): array
+function collectAudioFiles(string $directory, string $publicPathPrefix, bool $useOrderPrefix = false): array
 {
     if (!is_dir($directory)) {
         return [];
@@ -47,24 +48,62 @@ function collectAudioFiles(string $directory, string $publicPathPrefix): array
         }
 
         $filename = $fileinfo->getFilename();
-        $displayName = str_replace('_', ' ', pathinfo($filename, PATHINFO_FILENAME));
-        $files[] = [
+        $baseName = pathinfo($filename, PATHINFO_FILENAME);
+
+        $order = null;
+        $displayBase = $baseName;
+
+        // parse a leading numeric prefix like "12_..." and remove it from the display name
+        if ($useOrderPrefix && preg_match('/^(\d+)_+(.*)$/', $baseName, $matches) === 1) {
+            $order = (int) $matches[1];
+            $displayBase = $matches[2];
+        }
+
+        $displayName = str_replace('_', ' ', $displayBase);
+
+        $entry = [
             'filename' => $filename,
             'displayName' => $displayName,
             'path' => $publicPathPrefix . $filename
         ];
+
+        if ($order !== null) {
+            $entry['_order'] = $order; // internal sort key, removed before return
+        }
+
+        $files[] = $entry;
     }
 
-    usort($files, static function (array $a, array $b): int {
-        return strcasecmp($a['displayName'], $b['displayName']);
-    });
+    if ($useOrderPrefix) {
+        usort($files, static function (array $a, array $b): int {
+            $ao = array_key_exists('_order', $a) ? (int) $a['_order'] : PHP_INT_MAX;
+            $bo = array_key_exists('_order', $b) ? (int) $b['_order'] : PHP_INT_MAX;
+            if ($ao !== $bo) {
+                return $ao <=> $bo;
+            }
+            return strcasecmp($a['displayName'], $b['displayName']);
+        });
+
+        // remove internal key before returning
+        foreach ($files as &$file) {
+            if (isset($file['_order'])) {
+                unset($file['_order']);
+            }
+        }
+        unset($file);
+    } else {
+        usort($files, static function (array $a, array $b): int {
+            return strcasecmp($a['displayName'], $b['displayName']);
+        });
+    }
 
     return $files;
 }
 
 $audioFiles = collectAudioFiles(
     $basePath . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . 'audio',
-    'object_data/' . $folder . '/audio/'
+    'object_data/' . $folder . '/audio/',
+    true
 );
 
 $sfxFiles = collectAudioFiles(
