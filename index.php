@@ -203,6 +203,7 @@
         </div>
 
         <script src="compiled/main.js?modified=<?=time()?>" defer></script>
+        <script src="audio-enhancer.js?modified=<?=time()?>" defer></script>
     </body>
 </html>
 <?

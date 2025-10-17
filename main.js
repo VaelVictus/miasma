@@ -144,7 +144,7 @@
     }
 
     function bindTrackEvents(track) {
-        const { audio, playButton, progressBar, timeLabel } = track;
+		const { audio, playButton, progressBar, timeLabel } = track;
 
         playButton.addEventListener('click', () => {
             if (!audio.paused) {
@@ -176,11 +176,21 @@
             }
         });
 
-        audio.addEventListener('timeupdate', () => {
-            const { currentTime, duration } = audio;
-            const progress = duration ? currentTime / duration : 0;
-            progressBar.style.transform = `scaleX(${progress})`;
-            timeLabel.textContent = formatTime(currentTime);
+		audio.addEventListener('timeupdate', () => {
+			const { currentTime, duration } = audio;
+			const progress = duration ? currentTime / duration : 0;
+			progressBar.style.transform = `scaleX(${progress})`;
+			timeLabel.textContent = formatTime(currentTime);
+			if (Number.isFinite(duration)) {
+				const segStartTime = (track.segment_start ?? 0) * duration;
+				const segEndTime = (track.segment_end ?? 1) * duration;
+				if (currentTime >= segEndTime - 0.001) {
+					// stop at the end of the selection
+					audio.pause();
+					// keep playhead at segment end for clarity
+					audio.currentTime = segEndTime;
+				}
+			}
         });
 
         audio.addEventListener('ended', () => {
@@ -190,6 +200,124 @@
             state.audio.currentTrack = null;
         });
     }
+
+	function updateSegmentUi(track) {
+		const progress = track.progressEl;
+		if (!progress) {
+			return;
+		}
+
+		const segment = track.segment_el;
+		const handleStart = track.handle_start_el;
+		const handleEnd = track.handle_end_el;
+		const start = Math.max(0, Math.min(1, track.segment_start ?? 0));
+		const end = Math.max(start, Math.min(1, track.segment_end ?? 1));
+
+		const width = progress.clientWidth || 0;
+		const leftPx = Math.round(start * width);
+		const rightPx = Math.round(end * width);
+		const segWidth = Math.max(0, rightPx - leftPx);
+
+		if (segment) {
+			segment.style.left = `${leftPx}px`;
+			segment.style.width = `${segWidth}px`;
+		}
+		if (handleStart) {
+			handleStart.style.left = `${leftPx - 6}px`;
+		}
+		if (handleEnd) {
+			handleEnd.style.left = `${rightPx - 6}px`;
+		}
+	}
+
+	function bindProgressAndSelection(track) {
+		const progress = track.progressEl;
+		if (!progress) {
+			return;
+		}
+
+		const getFrac = (clientX) => {
+			const rect = progress.getBoundingClientRect();
+			if (!rect.width) {
+				return 0;
+			}
+			return Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+		};
+
+		progress.addEventListener('click', (event) => {
+			if (track.is_dragging) {
+				return;
+			}
+			const frac = getFrac(event.clientX);
+			const duration = track.audio.duration;
+			if (Number.isFinite(duration)) {
+				track.audio.currentTime = frac * duration;
+			}
+		});
+
+		const startDrag = (kind, clientX) => {
+			track.is_dragging = kind; // 'start' | 'end' | 'range'
+			track.drag_origin_frac = getFrac(clientX);
+			if (kind === 'range') {
+				track.segment_start = track.drag_origin_frac;
+				track.segment_end = track.drag_origin_frac;
+				updateSegmentUi(track);
+			}
+			document.body.style.userSelect = 'none';
+			document.body.style.cursor = 'ew-resize';
+		};
+
+		const moveDrag = (clientX) => {
+			if (!track.is_dragging) {
+				return;
+			}
+			const frac = getFrac(clientX);
+			if (track.is_dragging === 'start') {
+				track.segment_start = Math.min(frac, track.segment_end);
+			} else if (track.is_dragging === 'end') {
+				track.segment_end = Math.max(frac, track.segment_start);
+			} else if (track.is_dragging === 'range') {
+				track.segment_end = Math.max(frac, track.segment_start);
+			}
+			updateSegmentUi(track);
+		};
+
+		const endDrag = () => {
+			if (!track.is_dragging) {
+				return;
+			}
+			track.is_dragging = null;
+			track.drag_origin_frac = null;
+			document.body.style.userSelect = '';
+			document.body.style.cursor = '';
+		};
+
+		track.handle_start_el?.addEventListener('pointerdown', (e) => {
+			e.preventDefault();
+			startDrag('start', e.clientX);
+		});
+		track.handle_end_el?.addEventListener('pointerdown', (e) => {
+			e.preventDefault();
+			startDrag('end', e.clientX);
+		});
+		progress.addEventListener('pointerdown', (e) => {
+			if (e.target === track.handle_start_el || e.target === track.handle_end_el) {
+				return;
+			}
+			startDrag('range', e.clientX);
+		});
+		window.addEventListener('pointermove', (e) => moveDrag(e.clientX));
+		window.addEventListener('pointerup', endDrag);
+
+		progress.addEventListener('dblclick', () => {
+			track.segment_start = 0;
+			track.segment_end = 1;
+			updateSegmentUi(track);
+		});
+
+		track.audio.addEventListener('loadedmetadata', () => updateSegmentUi(track));
+		updateSegmentUi(track);
+	}
 
     function createAudioTrack(file) {
         const wrapper = document.createElement('div');
@@ -212,9 +340,46 @@
         const progress = document.createElement('div');
         progress.className = 'audio-progress';
 
-        const progressBar = document.createElement('div');
-        progressBar.className = 'audio-progress-bar';
-        progress.appendChild(progressBar);
+		const progressBar = document.createElement('div');
+		progressBar.className = 'audio-progress-bar';
+		progress.appendChild(progressBar);
+
+		const segment = document.createElement('div');
+		segment.className = 'audio_segment';
+		segment.style.position = 'absolute';
+		segment.style.top = '0';
+		segment.style.height = '100%';
+		segment.style.background = 'rgba(255, 255, 255, 0.25)';
+		segment.style.pointerEvents = 'none';
+		segment.style.left = '0';
+		segment.style.width = '0';
+		progress.appendChild(segment);
+
+		const handleStart = document.createElement('div');
+		handleStart.className = 'audio_handle audio_handle_start';
+		handleStart.style.position = 'absolute';
+		handleStart.style.top = '-4px';
+		handleStart.style.width = '12px';
+		handleStart.style.height = '14px';
+		handleStart.style.background = 'rgba(255,255,255,0.85)';
+		handleStart.style.borderRadius = '2px';
+		handleStart.style.cursor = 'ew-resize';
+		handleStart.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.35)';
+		handleStart.style.left = '-6px';
+		progress.appendChild(handleStart);
+
+		const handleEnd = document.createElement('div');
+		handleEnd.className = 'audio_handle audio_handle_end';
+		handleEnd.style.position = 'absolute';
+		handleEnd.style.top = '-4px';
+		handleEnd.style.width = '12px';
+		handleEnd.style.height = '14px';
+		handleEnd.style.background = 'rgba(255,255,255,0.85)';
+		handleEnd.style.borderRadius = '2px';
+		handleEnd.style.cursor = 'ew-resize';
+		handleEnd.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.35)';
+		handleEnd.style.left = 'calc(100% - 6px)';
+		progress.appendChild(handleEnd);
 
         const timeLabel = document.createElement('div');
         timeLabel.className = 'audio-time';
@@ -242,10 +407,26 @@
         wrapper.appendChild(playButton);
         wrapper.appendChild(details);
         wrapper.appendChild(meta);
-        wrapper.appendChild(audio);
+		wrapper.appendChild(audio);
 
-        const track = { element: wrapper, playButton, audio, progressBar, timeLabel, label: file.displayName };
-        bindTrackEvents(track);
+		const track = {
+			element: wrapper,
+			playButton,
+			audio,
+			progressBar,
+			timeLabel,
+			label: file.displayName,
+			progressEl: progress,
+			segment_el: segment,
+			handle_start_el: handleStart,
+			handle_end_el: handleEnd,
+			segment_start: 0,
+			segment_end: 1,
+			is_dragging: null,
+			drag_origin_frac: null
+		};
+		bindTrackEvents(track);
+		bindProgressAndSelection(track);
         return track;
     }
 
