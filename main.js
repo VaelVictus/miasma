@@ -171,8 +171,11 @@
 
         audio.addEventListener('pause', () => {
             if (state.audio.currentTrack === track) {
-                setTrackPlayingState(track, false);
-                state.audio.currentTrack = null;
+				if (track.suppress_pause_ui) {
+					return;
+				}
+				setTrackPlayingState(track, false);
+				state.audio.currentTrack = null;
             }
         });
 
@@ -181,16 +184,6 @@
 			const progress = duration ? currentTime / duration : 0;
 			progressBar.style.transform = `scaleX(${progress})`;
 			timeLabel.textContent = formatTime(currentTime);
-			if (Number.isFinite(duration)) {
-				const segStartTime = (track.segment_start ?? 0) * duration;
-				const segEndTime = (track.segment_end ?? 1) * duration;
-				if (currentTime >= segEndTime - 0.001) {
-					// stop at the end of the selection
-					audio.pause();
-					// keep playhead at segment end for clarity
-					audio.currentTime = segEndTime;
-				}
-			}
         });
 
         audio.addEventListener('ended', () => {
@@ -245,9 +238,6 @@
 		};
 
 		progress.addEventListener('click', (event) => {
-			if (track.is_dragging) {
-				return;
-			}
 			const frac = getFrac(event.clientX);
 			const duration = track.audio.duration;
 			if (Number.isFinite(duration)) {
@@ -255,68 +245,46 @@
 			}
 		});
 
-		const startDrag = (kind, clientX) => {
-			track.is_dragging = kind; // 'start' | 'end' | 'range'
-			track.drag_origin_frac = getFrac(clientX);
-			if (kind === 'range') {
-				track.segment_start = track.drag_origin_frac;
-				track.segment_end = track.drag_origin_frac;
-				updateSegmentUi(track);
-			}
-			document.body.style.userSelect = 'none';
-			document.body.style.cursor = 'ew-resize';
-		};
+		let is_scrubbing = false;
+		let was_playing = false;
 
-		const moveDrag = (clientX) => {
-			if (!track.is_dragging) {
-				return;
-			}
-			const frac = getFrac(clientX);
-			if (track.is_dragging === 'start') {
-				track.segment_start = Math.min(frac, track.segment_end);
-			} else if (track.is_dragging === 'end') {
-				track.segment_end = Math.max(frac, track.segment_start);
-			} else if (track.is_dragging === 'range') {
-				track.segment_end = Math.max(frac, track.segment_start);
-			}
-			updateSegmentUi(track);
-		};
-
-		const endDrag = () => {
-			if (!track.is_dragging) {
-				return;
-			}
-			track.is_dragging = null;
-			track.drag_origin_frac = null;
-			document.body.style.userSelect = '';
-			document.body.style.cursor = '';
-		};
-
-		track.handle_start_el?.addEventListener('pointerdown', (e) => {
-			e.preventDefault();
-			startDrag('start', e.clientX);
-		});
-		track.handle_end_el?.addEventListener('pointerdown', (e) => {
-			e.preventDefault();
-			startDrag('end', e.clientX);
-		});
 		progress.addEventListener('pointerdown', (e) => {
-			if (e.target === track.handle_start_el || e.target === track.handle_end_el) {
+			e.preventDefault();
+			const duration = track.audio.duration;
+			if (!Number.isFinite(duration)) {
 				return;
 			}
-			startDrag('range', e.clientX);
+			is_scrubbing = true;
+			was_playing = !track.audio.paused;
+			track.suppress_pause_ui = true;
+			track.audio.pause();
+			const frac = getFrac(e.clientX);
+			track.audio.currentTime = frac * duration;
+			document.body.style.userSelect = 'none';
 		});
-		window.addEventListener('pointermove', (e) => moveDrag(e.clientX));
-		window.addEventListener('pointerup', endDrag);
-
-		progress.addEventListener('dblclick', () => {
-			track.segment_start = 0;
-			track.segment_end = 1;
-			updateSegmentUi(track);
+		window.addEventListener('pointermove', (e) => {
+			if (!is_scrubbing) {
+				return;
+			}
+			const duration = track.audio.duration;
+			if (!Number.isFinite(duration)) {
+				return;
+			}
+			const frac = getFrac(e.clientX);
+			track.audio.currentTime = frac * duration;
 		});
-
-		track.audio.addEventListener('loadedmetadata', () => updateSegmentUi(track));
-		updateSegmentUi(track);
+		window.addEventListener('pointerup', () => {
+			if (!is_scrubbing) {
+				return;
+			}
+			is_scrubbing = false;
+			document.body.style.userSelect = '';
+			track.suppress_pause_ui = false;
+			if (was_playing) {
+				track.audio.play().catch(() => {});
+			}
+			was_playing = false;
+		});
 	}
 
     function createAudioTrack(file) {
@@ -343,43 +311,6 @@
 		const progressBar = document.createElement('div');
 		progressBar.className = 'audio-progress-bar';
 		progress.appendChild(progressBar);
-
-		const segment = document.createElement('div');
-		segment.className = 'audio_segment';
-		segment.style.position = 'absolute';
-		segment.style.top = '0';
-		segment.style.height = '100%';
-		segment.style.background = 'rgba(255, 255, 255, 0.25)';
-		segment.style.pointerEvents = 'none';
-		segment.style.left = '0';
-		segment.style.width = '0';
-		progress.appendChild(segment);
-
-		const handleStart = document.createElement('div');
-		handleStart.className = 'audio_handle audio_handle_start';
-		handleStart.style.position = 'absolute';
-		handleStart.style.top = '-4px';
-		handleStart.style.width = '12px';
-		handleStart.style.height = '14px';
-		handleStart.style.background = 'rgba(255,255,255,0.85)';
-		handleStart.style.borderRadius = '2px';
-		handleStart.style.cursor = 'ew-resize';
-		handleStart.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.35)';
-		handleStart.style.left = '-6px';
-		progress.appendChild(handleStart);
-
-		const handleEnd = document.createElement('div');
-		handleEnd.className = 'audio_handle audio_handle_end';
-		handleEnd.style.position = 'absolute';
-		handleEnd.style.top = '-4px';
-		handleEnd.style.width = '12px';
-		handleEnd.style.height = '14px';
-		handleEnd.style.background = 'rgba(255,255,255,0.85)';
-		handleEnd.style.borderRadius = '2px';
-		handleEnd.style.cursor = 'ew-resize';
-		handleEnd.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.35)';
-		handleEnd.style.left = 'calc(100% - 6px)';
-		progress.appendChild(handleEnd);
 
         const timeLabel = document.createElement('div');
         timeLabel.className = 'audio-time';
@@ -417,13 +348,7 @@
 			timeLabel,
 			label: file.displayName,
 			progressEl: progress,
-			segment_el: segment,
-			handle_start_el: handleStart,
-			handle_end_el: handleEnd,
-			segment_start: 0,
-			segment_end: 1,
-			is_dragging: null,
-			drag_origin_frac: null
+			is_dragging: null
 		};
 		bindTrackEvents(track);
 		bindProgressAndSelection(track);
