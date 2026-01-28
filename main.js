@@ -86,13 +86,18 @@
             return;
         }
 
-        const { audio, playButton, progressBar, timeLabel, label } = state.audio.currentTrack;
+        const { audio, playButton, progressBar, progressThumb, timeLabel, label, durationLabel } = state.audio.currentTrack;
         audio.pause();
         audio.currentTime = 0;
-        playButton.textContent = 'Play';
         playButton.setAttribute('aria-label', `Play ${label}`);
         progressBar.style.transform = 'scaleX(0)';
+        if (progressThumb) {
+            progressThumb.style.left = '0%';
+        }
         timeLabel.textContent = '0:00';
+        if (durationLabel) {
+            durationLabel.textContent = formatTime(audio.duration);
+        }
         state.audio.currentTrack.element.classList.remove('playing');
         state.audio.currentTrack = null;
     }
@@ -138,13 +143,12 @@
         }
 
         track.element.classList.toggle('playing', isPlaying);
-        track.playButton.textContent = isPlaying ? 'Pause' : 'Play';
         const action = isPlaying ? 'Pause' : 'Play';
         track.playButton.setAttribute('aria-label', `${action} ${track.label}`);
     }
 
     function bindTrackEvents(track) {
-		const { audio, playButton, progressBar, timeLabel } = track;
+		const { audio, playButton, progressBar, timeLabel, durationLabel } = track;
 
         playButton.addEventListener('click', () => {
             if (!audio.paused) {
@@ -183,11 +187,23 @@
 			const { currentTime, duration } = audio;
 			const progress = duration ? currentTime / duration : 0;
 			progressBar.style.transform = `scaleX(${progress})`;
+			if (track.progressThumb) {
+				track.progressThumb.style.left = `${progress * 100}%`;
+			}
 			timeLabel.textContent = formatTime(currentTime);
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            if (durationLabel) {
+                durationLabel.textContent = formatTime(audio.duration);
+            }
         });
 
         audio.addEventListener('ended', () => {
             progressBar.style.transform = 'scaleX(0)';
+            if (track.progressThumb) {
+                track.progressThumb.style.left = '0%';
+            }
             timeLabel.textContent = '0:00';
             setTrackPlayingState(track, false);
             state.audio.currentTrack = null;
@@ -287,57 +303,134 @@
 		});
 	}
 
+	function bindVolumeControl(track) {
+		const volume_control = track.volumeControl;
+		if (!volume_control) {
+			return;
+		}
+
+		volume_control.addEventListener('input', () => {
+			const volume = Number.parseFloat(volume_control.value);
+			track.audio.volume = volume;
+		});
+
+		// initialize volume from control
+		track.audio.volume = Number.parseFloat(volume_control.value);
+	}
+
     function createAudioTrack(file) {
         const wrapper = document.createElement('div');
         wrapper.className = 'audio-track';
         wrapper.setAttribute('role', 'listitem');
 
         const playButton = document.createElement('button');
-        playButton.classList.add('btn', 'audio-play');
+        playButton.className = 'audio-play';
         playButton.type = 'button';
-        playButton.textContent = 'Play';
         playButton.setAttribute('aria-label', `Play ${file.displayName}`);
+
+        const playIcon = document.createElement('img');
+        playIcon.src = './img/play.svg';
+        playIcon.alt = '';
+        playIcon.className = 'audio-icon audio-icon-play';
+
+        const pauseIcon = document.createElement('span');
+        pauseIcon.className = 'audio-icon audio-icon-pause';
+
+        playButton.appendChild(playIcon);
+        playButton.appendChild(pauseIcon);
 
         const details = document.createElement('div');
         details.className = 'audio-details';
 
+        const title_row = document.createElement('div');
+        title_row.className = 'audio-title-row';
+
         const title = document.createElement('div');
         title.className = 'audio-title';
         title.textContent = file.displayName;
+
+        const volume_wrap = document.createElement('div');
+        volume_wrap.className = 'audio-volume-wrap';
+
+        const volume_icon = document.createElement('img');
+        volume_icon.src = './img/volume.svg';
+        volume_icon.alt = '';
+        volume_icon.className = 'audio-icon audio-icon-volume';
+
+        const volumeControl = document.createElement('input');
+        volumeControl.type = 'range';
+        volumeControl.className = 'audio-volume';
+        volumeControl.min = '0';
+        volumeControl.max = '1';
+        volumeControl.step = '0.01';
+        volumeControl.value = '1';
+        volumeControl.setAttribute('aria-label', `Volume control for ${file.displayName}`);
+
+        title_row.appendChild(title);
+        volume_wrap.appendChild(volume_icon);
+        volume_wrap.appendChild(volumeControl);
+        title_row.appendChild(volume_wrap);
+
+        const progress_row = document.createElement('div');
+        progress_row.className = 'audio-progress-row';
 
         const progress = document.createElement('div');
         progress.className = 'audio-progress';
 
 		const progressBar = document.createElement('div');
 		progressBar.className = 'audio-progress-bar';
-		progress.appendChild(progressBar);
 
-        const timeLabel = document.createElement('div');
+		const progressThumb = document.createElement('div');
+		progressThumb.className = 'audio-progress-thumb';
+
+		progress.appendChild(progressBar);
+		progress.appendChild(progressThumb);
+
+        const time_display = document.createElement('div');
+        time_display.className = 'audio-time-display';
+
+        const timeLabel = document.createElement('span');
         timeLabel.className = 'audio-time';
         timeLabel.textContent = '0:00';
 
+        const time_separator = document.createElement('span');
+        time_separator.className = 'audio-time-separator';
+        time_separator.textContent = ' / ';
+
+        const durationLabel = document.createElement('span');
+        durationLabel.className = 'audio-duration';
+        durationLabel.textContent = '0:00';
+
+        time_display.appendChild(timeLabel);
+        time_display.appendChild(time_separator);
+        time_display.appendChild(durationLabel);
+
+        progress_row.appendChild(progress);
+        progress_row.appendChild(time_display);
+
         const downloadButton = document.createElement('a');
-        downloadButton.classList.add('btn', 'audio-download');
+        downloadButton.className = 'audio-download';
         downloadButton.href = encodeURI(file.path);
         downloadButton.download = file.filename || '';
-        downloadButton.textContent = 'Download';
+        downloadButton.title = 'Download audio';
         downloadButton.setAttribute('aria-label', `Download ${file.displayName}`);
 
-        const meta = document.createElement('div');
-        meta.className = 'audio-meta';
-        meta.appendChild(timeLabel);
-        meta.appendChild(downloadButton);
+        const downloadIcon = document.createElement('img');
+        downloadIcon.src = './img/download.svg';
+        downloadIcon.alt = '';
+        downloadIcon.className = 'audio-icon';
+        downloadButton.appendChild(downloadIcon);
 
         const audio = document.createElement('audio');
         audio.src = encodeURI(file.path);
-        audio.preload = 'none';
+        audio.preload = 'metadata';
 
-        details.appendChild(title);
-        details.appendChild(progress);
+        details.appendChild(title_row);
+        details.appendChild(progress_row);
 
         wrapper.appendChild(playButton);
         wrapper.appendChild(details);
-        wrapper.appendChild(meta);
+        wrapper.appendChild(downloadButton);
 		wrapper.appendChild(audio);
 
 		const track = {
@@ -345,13 +438,17 @@
 			playButton,
 			audio,
 			progressBar,
+			progressThumb,
 			timeLabel,
+			durationLabel,
+			volumeControl,
 			label: file.displayName,
 			progressEl: progress,
 			is_dragging: null
 		};
 		bindTrackEvents(track);
 		bindProgressAndSelection(track);
+		bindVolumeControl(track);
         return track;
     }
 
