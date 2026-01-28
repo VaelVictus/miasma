@@ -1015,7 +1015,7 @@
     }
 
     function openTab(evt, tabName) {
-        const { tabs, tabContents } = state.dom;
+        const { tabs, tabContents, notes } = state.dom;
         if (!tabs || !tabContents) {
             return;
         }
@@ -1039,6 +1039,11 @@
                 button.classList.toggle('active', isActive);
             }
         });
+
+        const tabs_element = notes ? notes.querySelector('.tabs') : null;
+        if (tabs_element) {
+            tabs_element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
 
     function bindEventListeners() {
