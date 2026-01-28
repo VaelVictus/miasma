@@ -124,6 +124,42 @@
 
         if (audioDom.tabButton) {
             audioDom.tabButton.dataset.hasAudio = 'false';
+            audioDom.tabButton.textContent = 'Audio';
+        }
+    }
+
+    async function updateAudioCount(miasma) {
+        const audioDom = state.dom.audio;
+        if (!audioDom || !audioDom.tabButton) {
+            return;
+        }
+
+        if (!miasma || miasma === 'all') {
+            audioDom.tabButton.textContent = 'Audio';
+            return;
+        }
+
+        try {
+            const response = await fetch(`audio_count.php?miasma=${encodeURIComponent(miasma)}`);
+
+            if (!response.ok) {
+                audioDom.tabButton.textContent = 'Audio';
+                return;
+            }
+
+            const payload = await response.json();
+
+            if (payload && typeof payload.count === 'number') {
+                if (payload.count > 0) {
+                    audioDom.tabButton.textContent = `Audio (${payload.count})`;
+                } else {
+                    audioDom.tabButton.textContent = 'Audio';
+                }
+            } else {
+                audioDom.tabButton.textContent = 'Audio';
+            }
+        } catch (error) {
+            audioDom.tabButton.textContent = 'Audio';
         }
     }
 
@@ -943,6 +979,7 @@
                 resetAudioState('Select a single miasma to check for audio or sounds.');
             } else {
                 loadAudio(normalizedFolder);
+                updateAudioCount(normalizedFolder);
             }
         } else {
             resetAudioState('Select a miasma to check for audio or sounds.');
