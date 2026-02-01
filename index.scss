@@ -262,7 +262,7 @@ img {
   }
 
   p {
-    padding: 5px; margin: 2px;
+    padding: 5px 0; margin: 2px;
   }
 }
 
@@ -295,6 +295,10 @@ img {
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
+}
+
+.sign_off {
+  font-style: italic;
 }
 
 /* Style the tab */

@@ -37,11 +37,11 @@ ob_start();
     end his thoughts) appears to be externally motivated. Something, or somebody, grabbed his hand
     as he was writing! It is a tectonodous feeling, to know that something was touching him, then, all that time ago, and to have the imprint of it break the air and touch us as well. </p>
 
-    <p class="right"><span class="red">\\\\</span>Clerk<span class="red">////</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\\\\</span>Clerk<span class="red">////</span> Chester-Stokes</span></p>
 
     <p>Just to note, <span class="red">\\\\</span>Clerk<span class="red">////</span>; I cannot find “tectonodous” in the Book of Pernick, and it is therefore not part of the House Style. Please rephrase yourself. </p>
 
-    <p class="right"><span class="red">____</span>Clerk<span class="red">____ </span>Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____ </span>Wayle</span></p>
 <?  }
     elseif ($_GET['miasma'] === 'weevilhunt3') { ?>
     <b>C.C.N:</b> The Weevil Hunt <br/>
@@ -51,14 +51,14 @@ ob_start();
 
     <p><span class="red">\\__</span>Theory<span class="red">____</span> Lack of acid damage is due to the Eremite using this entry to wrap the weevil and keep it safe and entire for the period of his sojourn in Loss.</p>
 
-    <p class="right"><span class="red">\||\</span>Clerk<span class="red">__// </span>Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">\||\</span>Clerk<span class="red">__// </span>Wayle</span></p>
 
     <p>A ludicrous conjecture, <span class="red">\||\</span>Clerk<span class="red">__//</span>Wayle, and a dangerous assumption also. What evidence do you have? Are there smears of shellac left behind? Crinkles from the Eremite hugging it to his breast?  What do you know about the him? Nothing. Apparently, nothing. </p>
 
-    <p class="right"><span class="red">____</span>Clerk<span class="red">____ </span>Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____ </span>Chester-Stokes</span></p>
 
-    <p class="right">OFFICIAL FAMILIAR RETRACTION BY <span class="red">\||\</span>Clerk<span class="red">__//</span> Wayle</p>
-    <p class="right">COUNTERSIGNED BY <span class="red">____</span>Clerk<span class="red">____</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off">OFFICIAL FAMILIAR RETRACTION BY <span class="red">\||\</span>Clerk<span class="red">__//</span> Wayle</span></p>
+    <p class="right"><span class="sign_off">COUNTERSIGNED BY <span class="red">____</span>Clerk<span class="red">____</span> Chester-Stokes</span></p>
 <?  }
     elseif ($_GET['miasma'] === 'worstcook') { ?>
     <b>C.C.N:</b> The Worst Cook [Transcript M12]<br/>
@@ -221,7 +221,7 @@ ob_start();
     <span class="red">Imagine</span>, <span class="red">\\__</span>clerks<span class="red">__//</span>. 
     <p class="right">
 
-    <span class="red">____</span>Clerk<span class="red">____</span> Wayle
+    <span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</span> Wayle</span>
     </p>
 <?  }
     elseif ($_GET['miasma'] === 'diplomat') { ?>
@@ -238,31 +238,31 @@ ob_start();
     <span class="red">_\\_</span>Caution!<span class="red">_____</span> Tachypnea and parapnoia reported amongst clerks approaching, as well as three isolated cases of Hydriotaphia Syndrome. This is not a thing of honour. No great deeds were done here. I am marking this as unimportant and worthy of being forgotten: reinter without delay. Any further analysis should be conducted by seriation only. 
     </p><br/>
     <p class="right">
-    <span class="red">__//</span>Clerk<span class="red">\\__</span> Chester-Stokes
+    <span class="sign_off"><span class="red">__//</span>Clerk<span class="red">\\__</span> Chester-Stokes</span>
     </p><br/><br/>
     <p>
     <span class="red">__//</span>Clerk!<span class="red">\\__</span> I fail to see the need for such scaremongering. The object has not upset this <span class="red">____</span>clerk<span class="red">____</span> in the slightest, and I fail to see how much worse others could feel than they already do. Have you approached the Excavation yourself?
     </p><br/>
     <p class="right">
-    <span class="red">____</span>Clerk<span class="red">____</spna> Wayle
+    <span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</spna> Wayle</span>
     </p><br/><br/>
     <p>
     No, <span class="red">\____</span>Clerk!<span class="red">_____</span> I am not unexperienced in gravedigging. I have a vague recollection of other megadeleos that I have visited. There was one in my youth, I think; the Dee Huus, or something similar, on an island somewhere. I certainly have no desire to repeat the experience, and I trust my \\\\clerks//// well enough.
     </p><br/>
     <p class="right">
-    <span class="red">__//</span>Clerk<span class="red">\\__</span> Chester-Stokes
+    <span class="sign_off"><span class="red">__//</span>Clerk<span class="red">\\__</span> Chester-Stokes</span>
     </p><br/><br/>
     <p>
     <span class="red">__//</span>Clerk!<span class="red">\\__,</span> you seem to have misplaced your House Style, in all your fear of this beautiful thing. I believe that you meant to address me as <span class="red">____</span>Clerk!<span class="red">____</span> I am fully pained, now. I am in agony, and you should address me as such. I’ve known pens to slip from steadier trotters, though, so I forgive the slight. 
     </p><br/>
     <p class="right">
-    <span class="red">____</span>Clerk<span class="red">____</span> Wayle
+    <span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</span> Wayle</span>
     </p><br/><br/>
     <p>
     Unfortunately it was not a mistake. To this <span class="red">__//</span>clerk<span class="red">\\__ </span>you will always have one finger raised.
     </p><br/>
     <p class="right"><br/>
-    <span class="red">__//</span>Clerk<span class="red">\\__</span> Chester-Stokes 
+    <span class="sign_off"><span class="red">__//</span>Clerk<span class="red">\\__</span> Chester-Stokes</span> 
     </p><br/><br/>
     <p>
     <span class="red">__\_</span>Later Addendum<span class="red">//__</span> I have revealed this object for study once again. I had quite forgotten about it in all the fuss; I envy the \\\\clerk//// to whom it is assigned. Every part of it is a flirt to the senses; the hipped sides of it, the glint of turquoise in any light, that beautiful colour. The Eremite refers to it, specifically, in his writings. I transcribe from my own Excavation: “And so I took tea with each of them in turn, sitting them at the Persuavant, fresh herbs under their noses, and I explained where I came from, and what I did, and I enacted the wind to make its music, to go, by my signal, W O O. I made the preparations, and more and more of them came.”
@@ -271,7 +271,7 @@ ob_start();
     We believe and officially posit that these herbs were presented in the vase (not a dour urn as other clerks have marked it). I make an appeal to the <span class="red">\\\\</span>clerk<span class="red">////</span> who discovers it to touch its sides, imagine the hands that smoothed the boiling clay into place, giving the whole thing the impression of skin. Stop at the threshold, and imagine what it would be like to approach this, and find the Eremite next to it, waiting for you, beneath the trees, the wind fingering its own holes, the smell of hot nuts roasting somewhere within. This is not a warning. It is the most elegant of lures. 
     </p><br/>
     <p class="right">
-    <span class="red">____</span>Clerk<span class="red">____</span> Wayle
+    <span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</span> Wayle</span>
     </p>
 <?  }
     elseif ($_GET['miasma'] === 'fretgay') { ?>
@@ -318,7 +318,7 @@ ob_start();
     - Forget about it. Forget that it even existed, because, truly, if you <span class="red">imagine</span> it properly, it did not; it was only there briefly, in his gorgeous hand, to catch whatever flakes of himself tried to escape.
     </p>
     <p class="right">
-    <span class="red">____</span>Clerk<span class="red">____ </span>Wayle
+    <span class="sign_off"><span class="red">____</span>Clerk<span class="red">____ </span>Wayle</span>
     <p>
 <?  }
     elseif ($_GET['miasma'] === 'frontispiece') { ?>
@@ -330,7 +330,7 @@ ob_start();
     Entry has been forcibly removed from the Great Work and is currently a peregrine entry. The 
     frontdoord of the Work has been lost, however, and reattachment is impossible and should not be 
     requested.
-    <p class="right"><span class="red">___\</span>Clerk!<span class="red">\\_/</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">___\</span>Clerk!<span class="red">\\_/</span> Chester-Stokes</span></p>
 <?  }
     elseif ($_GET['miasma'] === 'gates') { ?>
     <b>C.C.N:</b> No Ingress K29<br/>
@@ -348,20 +348,20 @@ ob_start();
     </ul>
     <p>oijosagiw-0gnab800aiawgnlwargsd<span class="red">/</span>sd<span class="red">/</span>gs<span class="red">/</span>dg<span class="red">///</span>g<span class="red">/</span>weghopbprebov<span class="red">///</span>sv/s/v<span class="red">//////</span></p>
 
-    <p class="right"><span class="red">\\\\</span>Clerk<span class="red">////</span> Wail</p>
+    <p class="right"><span class="sign_off"><span class="red">\\\\</span>Clerk<span class="red">////</span> Wail</span></p>
 
     <p><span class="red">\\\\</span>Clerk<span class="red">////</span> Wail, if you cannot conduct your observations in the House Style, I will be forced to
     remove you from this Great Work. If you are in pain, bite your tongue and try and control the spasm in your fingers. There are more words in the Book Of Pernick, under your desk.</p>
 
-    <p class="right"><span class="red">\___</span>Clerk<span class="red">/__/</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\___</span>Clerk<span class="red">/__/</span> Chester-Stokes</span></p>
 
     <p>his fundamennt is flashin <span class="red">\_\\</span>Novel Observation<span class="red">////</span></p>
 
-    <p class="right"><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</span></p>
 
     <p>Good boy.</p>
 
-    <p class="right"><span class="red">\___</span>Clerk<span class="red">/__/</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\___</span>Clerk<span class="red">/__/</span> Chester-Stokes</span></p>
 
 <?  }
     elseif ($_GET['miasma'] === 'guttering') { ?>
@@ -945,19 +945,19 @@ ob_start();
     <p>Object has had a large amount of chyme removed, which had set in the main cavity upon initial unearthing. 
     Ref. <span class="red">The Tight Walk P8923</span>:: “So[...] I will [...] remember nuzzling into that volcanic chest, [...] and said to her, ‘Jenny, I will never leave you again.’”</p>
 
-    <p class="right"><span class="red">\____</span>Clerk<span class="red">____</span> Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">\____</span>Clerk<span class="red">____</span> Wayle</span></p>
 
     <p>Very little to say about the piece. A portable tallgirl in the armario de cordero style, of middling workmanship, and a distinct lack of Venus about her; this is more of an ur-cow, a Wildorf replica, than anything else. Lacerations on the stomach appear to be self-inflicted, no doubt due to inevitable wood sag and hideous lack of care. She has absolutely no use to us whatsoever, especially as we cannot work out how to use her in a coastal setting.</p>
 
-    <p class="right"><span class="red">____</span>Clerk<span class="red">____ </span>Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____ </span>Chester-Stokes</span></p>
 
     <p>Correction to the <span class="red">\\__</span>Condition<span class="red">__//</span> marker; this is ormolu, rather than schlagmetal work. Whoever has marked this as such, please note that you will not be allowed to see her again.</p>
 
-    <p class="right"><span class="red">\____</span>Clerk<span class="red">____ </span>Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">\____</span>Clerk<span class="red">____ </span>Wayle</span></p>
 
     <p><span class="red">\___</span>Clerk<span class="red">____ </span>Wayle, I appreciate your industry but not your tone. If you must know, it was me who marked it as Schlagmetal, as the work clearly shows an Iberian influence. This is clearly far older than you had thought. Please check your facts, and spend some time with the poor girl, before you reprimand any employee, especially your superior.</p>
 
-    <p class="right"><span class="red">____</span>Clerk<span class="red">____</span> Chester Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</span> Chester Stokes</span></p>
 <?  }
     elseif ($_GET['miasma'] === 'macrophile') { ?>
     <span class="red">NNNNNNNNNNNNNNNNNNNNNNNN <br/>
@@ -975,48 +975,48 @@ ob_start();
 
     <p>The Eremite's acceptance of a lack of menses ritual in Loss perhaps points to a lack of cultural currency about his person. Despite his civilisation, learning, wanderlust and deduction, he has not been permitted inside the normative sphere of Loss, and thus cannot accept that something may be hidden from him; instead, his ego sees nothing. </p>
     <p>I would like all senior <span class="red">____</span>clerks<span class="red">____</span> to discuss this problem.</p>
-    <p class="right"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</span></p>
     </br>
     </br>
     <p>Unacceptable. The Eremite's position of sexual primacy with the female “Friend”, or “Death Of A Friend” (depending on honorific) points to a deep insinuation into the social fabric of Loss. Perhaps not every civilisation is as obsessed with failed potential as yours was.</p>
     </br>
-    <p class="right"><span class="red">\\__</span>Clerk<span class="red">////</span> Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">\\__</span>Clerk<span class="red">////</span> Wayle</span></p>
     </br></br>
     <p>\\__Clerk//// Wayle, I have your Work in front of me, and whilst I am not used to the formator the language, I can see that it has been noted that you are angry, and rather insignificant. I have a petition here from you for a specific promotion, “Deplorsy Minor”; it seems that you, also, are aware that you are not yet a senior <span class="red">____</span>clerk<span class="red">____</span>, and should not be engaging in these Excavations, let alone answering this question. Return the piece to the Marvel Ouse immediately.</p>
     </br></br>
-    <p class="right"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</span></p>
     </br>
     <p><span class="red">____</span>Clerk<span class="red">____</span>, I find it appalling that not one senior clerk can pluck up the courage, or stymie the shakes in their sleeves, to argue with you. The people of Loss are a tame, trusting people, this much can be seen, especially from Common Compression Name “The Tides In My Soup”. Given the Eremite's proven record of gaining (and maintaining) the trust of the uncivilised, it seems unlikely that they would keep something as mundane as a bleeding rite secret from him. They had, at this point, already given him so much.</p>
     </br></br>
-    <p class="right"><span class="red">\\__</span>Clerk<span class="red">////</span> Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">\\__</span>Clerk<span class="red">////</span> Wayle</span></p>
     </br>
     <p>I see you have received your promotion since we last corresponded. I shall have to come and find you, and see to your pain. In the meantime, I would refer your attention to the fact of the matter, the fact of the whole of the Eremite's time in Loss; he was never, ever permitted to spend the night inside the village walls. Despite his accumulated dunnage creating an ersatz settlement far bigger than Loss itself, they were at no point cowed, and only allowed him ingress before dark. I think that this piece demonstrates this better than most.</p>
     </br></br>
-    <p class="right"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</span></p>
     </br>
     <p>A submission to rubic suspicion. His insemination amongst the womenfolk was complete and total.</p>
     </br></br>
-    <p class="right"><span class="red">\\__</span>Clerk<span class="red">////</span> Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">\\__</span>Clerk<span class="red">////</span> Wayle</span></p>
     </br>
     <p>SHHH, <span class="red">\___</span>Clerk<span class="red">////.</span> Regard your forget-me-whole instead. Your new promotion is making you muddled. How could you have read so much of the Great Work as to be sure of that fact? I think we can establish who knows the Eremite better, out of you and I.</p>
     </br></br>
-    <p class="right"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</span></p>
     </br>
     <p><span class="red">____</span>CORRESPONDENCE REMOVED<span class="red">____</span</p>
     <p>SHHHHHHHHH</p>
     </br></br>
-    <p class="right"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</span></p>
     </br>
     <p><span class="red">____</span>CORRESPONDENCE REMOVED<span class="red">____</span</p>
     <p><span class="red">____</span>CORRESPONDENCE REMOVED<span class="red">____</span</p>
     <p>SHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH</p>
     </br></br>
-    <p class="right"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</span></p>
     </br>
     <p><span class="red">____</span>CORRESPONDENCE REMOVED<span class="red">____</span</p>
     <p>SHHHHHH</p>
     </br></br>
-    <p class="right"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</span></p>
 <?  }
     elseif ($_GET['miasma'] === 'pilot') { ?>
     <b>C.C.N:</b> The Pilot's Book K23<br/>
@@ -1032,11 +1032,11 @@ ob_start();
 
     <p><span class="red">Internal Ref. ….................................................... C.C.N. The Wayle Map P489.</span><p>
 
-    <p class="right"><span class="red">____</span>Clerk Wayle<span class="red">____</span><p>
+    <p class="right"><span class="sign_off"><span class="red">____</span>Clerk Wayle<span class="red">____</span></span><p>
 
     <p>I am not entirely certain as to why these fragments have been arranged like this; Clerk Wayle must see some pattern that I do not. Especially considering the <span class="red">____</span>Recent Kloof Subsidence<span class="red">____</span>, I must commend his boldness, and apparently his rampant self-promotion. <p>
 
-    <p class="right"><span class="red">\\_\</span>Clerk Chester-Stokes<span class="red">////</span><p>
+    <p class="right"><span class="sign_off"><span class="red">\\_\</span>Clerk Chester-Stokes<span class="red">////</span></span><p>
 <?  }
     elseif ($_GET['miasma'] === 'pilot2') { ?>
     <b>C.C.N:</b> The Pilot's Book Fragment K894 <br/>
@@ -1046,13 +1046,13 @@ ob_start();
 
     <p>Consider this my theory. An editor must work within extremely tight confines of mind and matter, and assumptions based on incomplete evidence, whilst occasionally contaminatory, can elucidate new modes of thinking. By combining the fragments in this manner, some ripped deliberately from their binding, others teased by the motions of wave and wind, I hope to draw something from them, some connection which maybe the Eremite intended, but was unable to pronounce without ripping his protopus to shreds.</p>
 
-    <p class="right"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">\__\</span>Clerk<span class="red">/_//</span> Chester-Stokes</span></p>
 <?  }
     elseif ($_GET['miasma'] === 'player') { ?>
     <p><span class="red"><b>\\:://28739//::\\</b></span> (approx). ABOARD_VESSEL_(IBERIAN)_SAMPLE::25pps</p>
     <p>Despite the best efforts of my associates, partial granular extraction has revealed waterlogs and pulp throughout the structure of the sample. Background sibilance consistent with <span class="red">\\\\</span>BB distribution<span class="red">////</span>. Evidently the detritus of a larger deposit; I suggest more care be taken in the future with one's trotters. Marked for scatter to one of the winds. </p>
 
-    <p class=right><span class="red">____</span>Clerk<span class="red">____</span> Wayle</p>
+    <p class=right><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</span> Wayle</span></p>
 <?  }
     elseif ($_GET['miasma'] === 'potential') { ?>
     <b>C.C.N: </b>Loss Of Potential D57<br/>
@@ -1096,7 +1096,7 @@ ob_start();
 
     rather than this paean. 
     <p class="right">
-    <span class="red">_\\_</span>Clerk<span class="red">____</span> Wayle
+    <span class="sign_off"><span class="red">_\\_</span>Clerk<span class="red">____</span> Wayle</span>
     </p><br/><br/>
     CN::mscs,d aheeh lsovesss ahewr skdajn jehehee esdoees notsttst lcovovvvve ee yoiurrru rorrr 
 
@@ -1105,7 +1105,7 @@ ob_start();
     nanaymmsororrrreorr<span class="red">HNNNNNNNNNNNSHHHHHHHHH</span>
     </p>
     <p class="right">
-    <span class="red">____</span>Clerk<span class="red">____</span> Chester-Stokes
+    <span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</span> Chester-Stokes</span>
     </p>
 <?  }
     elseif ($_GET['miasma'] === 'rosetto') { ?>
@@ -1128,7 +1128,7 @@ ob_start();
     <p><span class="red">\\\\</span>Clerk!<span class="red">//// </span>Note the smell. Incongruous, and purposeful – something, all that time ago, has been rubbed across it. A new <span class="green">herb</span>.</p>
 
 
-    <p class="right"><span class="red">\\__</span>Clerk<span class="red">////</span> Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">\\__</span>Clerk<span class="red">////</span> Wayle</span></p>
 
 <?  }
     elseif ($_GET['miasma'] === 'semestress') { ?>
@@ -1139,7 +1139,7 @@ ob_start();
 
     <p><span class="red">\___</span>Clerk<span class="red">//_/</span> Chester-Stokes is a wonderful organologist, it never ceases to amaze me what we can learn from her about expectations requiring adjustment in the face of close inspection. This is not a harp. Originally marked as an autoharp, or a morpharp or something else equally, and bravely, self-indulgent, there is no evidence of chord bars ever having been installed either by the user or the manufacturer. We must move ahead to something more informed. It could be called a zither, a dulcimer of the plucked variety, or more generally a stringed resonant. As a bard myself, I am well aware of gut and all of its properties.</p>
 
-    <p class="right"><span class="red">____</span>Clerk<span class="red">____</span> Wayle</p>
+    <p class="right"><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</span> Wayle</span></p>
 
     <p><span class="red">\__\</span>Clerk<span class="red">////</span> Chester-Stokes is gathering her thoughts<span class="red">... … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … … </span></p>
 <?  }
@@ -1710,7 +1710,7 @@ ob_start();
 
     <p>This is an excellent example of Classical Islandscript, with the Eremite's undeniable flair and loneliness of thought. I have determined through glossal interaction that the medium is undiluted iron gall ink, confirming wild theories elsewhere. Despite the excellent preservation of the piece, we cannot source the front board and bindings of the Great Work that must have kept it safe. Original discovery made by <span class="red">\_\\</span>Clerk<span class="red">////</span> Antigone immediately prior to  <span class="red">___\</span>Alvaration 7<span class="red">/_/_</span>, and was removed from her pulverised calf and cleaned directly after the collapse.</p>
 
-    <p class="right"><span class="red">____</span>Clerk<span class="red">____</span> Chester-Stokes</p>
+    <p class="right"><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____</span> Chester-Stokes</span></p>
 <?  }
     elseif ($_GET['miasma'] === 'vaseandcup') { ?>
     <b>C.C.N:</b> The Vase And The Cup K20 <br/>
@@ -1738,19 +1738,19 @@ ob_start();
     Species defined as <i>hwael pelagius</i>, in concordance with more recent specifications. Minimal gelation points to a intimate marine knowledge of the original craftsman in Ring-In-Opal, The extreme specifics of the route to Loss, as the map has been agreed to show by my team, also points to a deep racial memory of sea routes relating to this place. A truly special people, possessed of cunning and, judging by their art, savage beauty.
     </p>
 
-    <b><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</b><br/>
+    <b><span class="sign_off"><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</span></b><br/>
     <p>
     A savage beauty? I’m not sure if we are looking at the same pelt, <span class="red">\\\\</span>Clerk!<span class="red">////</span> I know that you are flush with your discovery, but hyperbole won’t get us anywhere. From what I see, gelation has set in completely, especially around the dorsal flippers; it looks stillborn. Given the lack of artifice involved, we can deduce that the original purveyors of this map were primitive; therefore, such a waste of a valuable skin would have been foolhardy in the extreme. Also, the accuracy of the map is entirely debatable, as we have very little evidence that the Eremite used the map to reach Loss. Amongst with Jenny and his suite of other tools, this is only one, and far less accurate. And, considering that the basis for the triangulation used on the map are the arbitrary positions of  welts and sores on the poor beast’s skin, I think that what we are looking at are the products of an oracle, and a rather poor one at that. You and I both know how given the Eremite was to gifts, regardless of their use. 
     </p>
-    <b><span class="red">____</span>Clerk<span class="red">____ </span>Chester Stokes</b><br/>
+    <b><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____ </span>Chester Stokes</span></b><br/>
     <p>
     I would like you to imagine something, <span class="red">____</span>Clerk!<span class="red">____ </span>Imagine diving into an ocean piled high with stelae of ice, where you leave your dead to be swallowed. Imagine gelding this beast and then yourself. Imagine taking its skin off, and wrapping around yourself, and the stink of it, the rank it puts onto you that you wear even when you are naked again. That is what the man who made this most likely had to endure, and then to put his knowledge and work into it, of the seas that were his home; what a kindness, what a nobility! There are few men like that left, I think. 
     </p>
-    <b><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</b><br/>
+    <b><span class="sign_off"><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</span></b><br/>
     <p>
     Place in General Asiatica; I see no merit other than the slimmest of arts here. Old maps are not known for their accuracy, <span class="red">\\\\</span>Clerk!<span class="red">////</span> And what makes you so sure it was a man? Surely you know by now that there are women in every corner of the world. 
     </p>
-    <b><span class="red">____</span>Clerk<span class="red">____ </span>Chester-Stokes</b><br/>
+    <b><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____ </span>Chester-Stokes</span></b><br/>
     </div>
 
     <div class="section" id="legend_ring">
@@ -1827,19 +1827,19 @@ elseif ($_GET['miasma'] === 'waylemap2') { ?>
     Species defined as <i>hwael pelagius</i>, in concordance with more recent specifications. Minimal gelation points to a intimate marine knowledge of the original craftsman in Ring-In-Opal, The extreme specifics of the route to Loss, as the map has been agreed to show by my team, also points to a deep racial memory of sea routes relating to this place. A truly special people, possessed of cunning and, judging by their art, savage beauty.
     </p>
 
-    <b><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</b><br/>
+    <b><span class="sign_off"><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</span></b><br/>
     <p>
     A savage beauty? I’m not sure if we are looking at the same pelt, <span class="red">\\\\</span>Clerk!<span class="red">////</span> I know that you are flush with your discovery, but hyperbole won’t get us anywhere. From what I see, gelation has set in completely, especially around the dorsal flippers; it looks stillborn. Given the lack of artifice involved, we can deduce that the original purveyors of this map were primitive; therefore, such a waste of a valuable skin would have been foolhardy in the extreme. Also, the accuracy of the map is entirely debatable, as we have very little evidence that the Eremite used the map to reach Loss. Amongst with Jenny and his suite of other tools, this is only one, and far less accurate. And, considering that the basis for the triangulation used on the map are the arbitrary positions of  welts and sores on the poor beast’s skin, I think that what we are looking at are the products of an oracle, and a rather poor one at that. You and I both know how given the Eremite was to gifts, regardless of their use. 
     </p>
-    <b><span class="red">____</span>Clerk<span class="red">____ </span>Chester Stokes</b><br/>
+    <b><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____ </span>Chester Stokes</span></b><br/>
     <p>
     I would like you to imagine something, <span class="red">____</span>Clerk!<span class="red">____ </span>Imagine diving into an ocean piled high with stelae of ice, where you leave your dead to be swallowed. Imagine gelding this beast and then yourself. Imagine taking its skin off, and wrapping around yourself, and the stink of it, the rank it puts onto you that you wear even when you are naked again. That is what the man who made this most likely had to endure, and then to put his knowledge and work into it, of the seas that were his home; what a kindness, what a nobility! There are few men like that left, I think. 
     </p>
-    <b><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</b><br/>
+    <b><span class="sign_off"><span class="red">\\\\</span>Clerk<span class="red">////</span> Wayle</span></b><br/>
     <p>
     Place in General Asiatica; I see no merit other than the slimmest of arts here. Old maps are not known for their accuracy, <span class="red">\\\\</span>Clerk!<span class="red">////</span> And what makes you so sure it was a man? Surely you know by now that there are women in every corner of the world. 
     </p>
-    <b><span class="red">____</span>Clerk<span class="red">____ </span>Chester-Stokes</b><br/>
+    <b><span class="sign_off"><span class="red">____</span>Clerk<span class="red">____ </span>Chester-Stokes</span></b><br/>
     </div>
 
     <div class="section" id="legend_ring">
