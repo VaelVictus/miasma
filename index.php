@@ -180,6 +180,7 @@
             <div class="tabs">
                 <button class="tablinks active" onclick="openTab(event, 'game_notes');" id="game_notes_tab" role="tab">Widsith</button>
                 <button class="tablinks" onclick="openTab(event, 'audio_notes');" id="audio_notes_tab" role="tab">Audio</button>
+                <button class="tablinks" onclick="openTab(event, 'text_transcription');" id="text_transcription_tab" role="tab">Text Transcription</button>
                 <button class="tablinks" onclick="openTab(event, 'player_notes');" id="player_notes_tab" role="tab">Clerk Notes</button>
             </div>
 
@@ -196,6 +197,12 @@
             <div id="player_notes" class="tabcontent">
                 <? # Player-related notes go here. ?>
                 Future development will see the addition of player-submitted trottering notes.
+            </div>
+
+            <div id="text_transcription" class="tabcontent">
+                <div id="text_transcription_container" class="text_transcription_panel">
+                    <p class="text_transcription_placeholder" id="text_transcription_placeholder">Select a miasma to check for text transcription.</p>
+                </div>
             </div>
         </div>
 

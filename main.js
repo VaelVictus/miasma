@@ -5,6 +5,7 @@
         slider: null,
         dom: null,
         notesController: null,
+        transcription_controller: null,
         currentFolder: '',
         variety: {
             groups: new Map(),
@@ -77,6 +78,70 @@
         } finally {
             if (state.notesController === controller) {
                 state.notesController = null;
+            }
+        }
+    }
+
+    function resetTranscriptionState(message) {
+        const transcription_dom = state.dom?.transcription;
+        if (!transcription_dom || !transcription_dom.container) {
+            return;
+        }
+
+        if (state.transcription_controller) {
+            state.transcription_controller.abort();
+            state.transcription_controller = null;
+        }
+
+        transcription_dom.container.innerHTML = '';
+        const placeholder = document.createElement('p');
+        placeholder.className = 'text_transcription_placeholder';
+        placeholder.textContent = message;
+        transcription_dom.container.appendChild(placeholder);
+    }
+
+    async function loadTranscription(miasma) {
+        const transcription_dom = state.dom?.transcription;
+        if (!transcription_dom || !transcription_dom.container) {
+            return;
+        }
+
+        if (state.transcription_controller) {
+            state.transcription_controller.abort();
+        }
+
+        const controller = new AbortController();
+        state.transcription_controller = controller;
+
+        transcription_dom.container.innerHTML = '';
+        const loading = document.createElement('p');
+        loading.className = 'text_transcription_placeholder';
+        loading.textContent = 'Loading text transcription…';
+        transcription_dom.container.appendChild(loading);
+
+        try {
+            const response = await fetch(`text_transcription.php?miasma=${encodeURIComponent(miasma)}`, {
+                signal: controller.signal
+            });
+
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${response.status}`);
+            }
+
+            const markup = await response.text();
+
+            if (!controller.signal.aborted) {
+                transcription_dom.container.innerHTML = markup;
+            }
+        } catch (error) {
+            if (controller.signal.aborted) {
+                return;
+            }
+            console.error(`Failed to load text transcription for "${miasma}":`, error);
+            transcription_dom.container.innerHTML = '<p class="text_transcription_error">Text transcription failed to load. Please try again.</p>';
+        } finally {
+            if (state.transcription_controller === controller) {
+                state.transcription_controller = null;
             }
         }
     }
@@ -815,6 +880,11 @@
                 tabButton: document.getElementById('audio_notes_tab'),
                 tabContent: document.getElementById('audio_notes')
             },
+            transcription: {
+                container: document.getElementById('text_transcription_container'),
+                tabButton: document.getElementById('text_transcription_tab'),
+                tabContent: document.getElementById('text_transcription')
+            },
             folderSelect: getByIdRequired('folderSelect'),
             varietySwitcher: getByIdRequired('variety_switcher'),
             switchVariety: document.getElementById('switch_variety'),
@@ -827,12 +897,14 @@
             tabs: {
                 game: document.getElementById('game_notes_tab'),
                 audio: document.getElementById('audio_notes_tab'),
-                player: document.getElementById('player_notes_tab')
+                player: document.getElementById('player_notes_tab'),
+                transcription: document.getElementById('text_transcription_tab')
             },
             tabContents: {
                 game: document.getElementById('game_notes'),
                 audio: document.getElementById('audio_notes'),
-                player: document.getElementById('player_notes')
+                player: document.getElementById('player_notes'),
+                transcription: document.getElementById('text_transcription')
             }
         };
     }
@@ -977,12 +1049,15 @@
             loadNotes(normalizedFolder);
             if (normalizedFolder === 'all') {
                 resetAudioState('Select a single miasma to check for audio or sounds.');
+                resetTranscriptionState('Select a single miasma to check for text transcription.');
             } else {
                 loadAudio(normalizedFolder);
                 updateAudioCount(normalizedFolder);
+                loadTranscription(normalizedFolder);
             }
         } else {
             resetAudioState('Select a miasma to check for audio or sounds.');
+            resetTranscriptionState('Select a miasma to check for text transcription.');
         }
 
         document.body.setAttribute('data-current-miasma', normalizedFolder);
@@ -1084,6 +1159,7 @@
     function initialise() {
         state.dom = cacheDom();
         resetAudioState('Select a miasma to check for audio or sounds.');
+        resetTranscriptionState('Select a miasma to check for text transcription.');
         buildVarietyGroups();
 
         state.slider = new Slider(state.dom.slider, {
