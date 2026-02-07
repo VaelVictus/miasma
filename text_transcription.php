@@ -19,17 +19,17 @@ if (!preg_match('/^[a-zA-Z0-9_-]+$/', $folder)) {
 $transcription_path = __DIR__ . DIRECTORY_SEPARATOR . 'object_data' . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . 'text_transcription';
 
 if (!is_dir($transcription_path)) {
-    echo '<p class="text_transcription_placeholder">No text transcription is currently available for this miasma.</p>';
+    echo '<p class="text_transcription_placeholder">This item is a good candidate for transcription..</p>';
     exit;
 }
 
-$allowed_exts = ['html', 'htm', 'php'];
+$allowed_exts = ['html', 'htm', 'php', 'txt'];
 $files = [];
 
 try {
     $directory_iterator = new DirectoryIterator($transcription_path);
 } catch (UnexpectedValueException $exception) {
-    echo '<p class="text_transcription_placeholder">No text transcription is currently available for this miasma.</p>';
+    echo '<p class="text_transcription_placeholder">This item is a good candidate for transcription..</p>';
     exit;
 }
 
@@ -55,7 +55,7 @@ usort($files, static function (array $a, array $b): int {
 });
 
 if (!$files) {
-    echo '<p class="text_transcription_placeholder">No text transcription is currently available for this miasma.</p>';
+    echo '<p class="text_transcription_placeholder">This item is a good candidate for transcription..</p>';
     exit;
 }
 
@@ -88,12 +88,16 @@ foreach ($files as $index => $file) {
         continue;
     }
 
+    if ($file['ext'] === 'txt') {
+        echo '<div class="text_transcription_text">' . nl2br($content, false) . '</div>';
+        continue;
+    }
+
     echo $content;
 }
 
 $output = ob_get_contents();
 ob_end_clean();
 
-// echo output after stripping all whitespace
-echo preg_replace('/\s+/', ' ', (string) $output);
+echo (string) $output;
 
