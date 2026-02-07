@@ -1152,8 +1152,18 @@
     }
 
     function handlePopState(event) {
-        const folderFromUrl = window.location.pathname.replace(/\/$/, '').split('/miasma/')[1] || '';
+        const folderFromUrl = getFolderFromLocation();
         setCurrentFolder(folderFromUrl, { updateHistory: false });
+    }
+
+    function getFolderFromLocation() {
+        const fromPath = window.location.pathname.replace(/\/$/, '').split('/miasma/')[1] || '';
+        if (fromPath) {
+            return fromPath;
+        }
+
+        const searchParams = new URLSearchParams(window.location.search);
+        return searchParams.get('miasma') || '';
     }
 
     function initialise() {
@@ -1176,7 +1186,7 @@
 
         bindEventListeners();
 
-        const folderFromUrl = window.location.pathname.replace(/\/$/, '').split('/miasma/')[1] || '';
+        const folderFromUrl = getFolderFromLocation();
 
         openTab(null, 'game_notes');
 

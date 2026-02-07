@@ -1,11 +1,4 @@
 <?
-    // Preload Miasma
-    $url_params = explode('/', $_SERVER['REQUEST_URI']);
-    
-    if (isset($url_params[2])) {
-        $preloaded_miasma = $url_params[2];
-    }
-    
     // Miasma
     $folders = [
         'ABOARD_VESSEL_(IBERIAN)_SAMPLE::25pps' => 'player',
@@ -44,6 +37,53 @@
     ];
 
     $folder_labels = array_flip($folders);
+
+    function resolvePreloadedMiasma($folders) {
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $path = is_string($path) ? trim($path, '/') : '';
+
+        if ($path !== '') {
+            $segments = explode('/', $path);
+            if (count($segments) >= 2 && $segments[0] === 'miasma') {
+                $candidate = $segments[1];
+                if (in_array($candidate, $folders, true)) {
+                    return $candidate;
+                }
+            }
+        }
+
+        if (isset($_GET['miasma']) && in_array($_GET['miasma'], $folders, true)) {
+            return $_GET['miasma'];
+        }
+
+        return '';
+    }
+
+    function renderEndpointMarkup($endpoint_file, $miasma) {
+        if (empty($miasma)) {
+            return '';
+        }
+
+        $endpoint_path = __DIR__ . DIRECTORY_SEPARATOR . $endpoint_file;
+        if (!file_exists($endpoint_path)) {
+            return '';
+        }
+
+        $original_get = $_GET;
+        $_GET['miasma'] = $miasma;
+
+        ob_start();
+        include $endpoint_path;
+        $output = ob_get_clean();
+
+        $_GET = $original_get;
+
+        return (string)$output;
+    }
+
+    $preloaded_miasma = resolvePreloadedMiasma($folders);
+    $preloaded_notes = renderEndpointMarkup('trottering_notes.php', $preloaded_miasma);
+    $preloaded_transcription = renderEndpointMarkup('text_transcription.php', $preloaded_miasma);
 
     $variety_groups = [
         'cambium' => ['group' => 'cambium', 'order' => 0],
@@ -109,6 +149,14 @@
                 <option value="">Select a Specimen</option>
                 <?=generateOptions($folders)?>
             </select>
+
+            <nav id="miasma_crawl_links" class="sr-only" aria-label="Miasma specimen pages">
+                <ul>
+                    <? foreach ($folders as $name => $folder) { ?>
+                        <li><a href="<?= '/index.php?miasma=' . rawurlencode($folder) ?>"><?=htmlspecialchars($name, ENT_QUOTES)?></a></li>
+                    <? } ?>
+                </ul>
+            </nav>
         </section>
 
         <section id="choose_miasma" style='<?=(!empty($preloaded_miasma)) ? 'display: none;' : '' ?>'>
@@ -185,7 +233,9 @@
             </div>
 
             <div id="game_notes" class="tabcontent active">
-                <? # Game-related notes go here. ?>
+                <? if (!empty($preloaded_miasma)) {
+                    echo $preloaded_notes;
+                } ?>
             </div>
 
             <div id="audio_notes" class="tabcontent">
@@ -201,7 +251,11 @@
 
             <div id="text_transcription" class="tabcontent">
                 <div id="text_transcription_container" class="text_transcription_panel">
-                    <p class="text_transcription_placeholder" id="text_transcription_placeholder">Select a miasma to check for text transcription.</p>
+                    <? if (!empty($preloaded_miasma)) {
+                        echo $preloaded_transcription;
+                    } else { ?>
+                        <p class="text_transcription_placeholder" id="text_transcription_placeholder">Select a miasma to check for text transcription.</p>
+                    <? } ?>
                 </div>
             </div>
         </div>
