@@ -15,7 +15,7 @@ function renderTextTranscription(string $folder): string
     $transcription_path = __DIR__ . DIRECTORY_SEPARATOR . 'object_data' . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . 'text_transcription';
 
     if (!is_dir($transcription_path)) {
-        return '<p class="text_transcription_placeholder">This item is a good candidate for transcription..</p>';
+        return '<p class="text_transcription_placeholder">This item is not a good candidate for transcription.</p>';
     }
 
     $allowed_exts = ['html', 'htm', 'php', 'txt'];
@@ -24,7 +24,7 @@ function renderTextTranscription(string $folder): string
     try {
         $directory_iterator = new DirectoryIterator($transcription_path);
     } catch (UnexpectedValueException $exception) {
-        return '<p class="text_transcription_placeholder">This item is a good candidate for transcription..</p>';
+        return '<p class="text_transcription_placeholder">This item is not a good candidate for transcription.</p>';
     }
 
     foreach ($directory_iterator as $fileinfo) {
@@ -49,7 +49,7 @@ function renderTextTranscription(string $folder): string
     });
 
     if (!$files) {
-        return '<p class="text_transcription_placeholder">This item is a good candidate for transcription..</p>';
+        return '<p class="text_transcription_placeholder">This item is not a good candidate for transcription.</p>';
     }
 
     ob_start();
