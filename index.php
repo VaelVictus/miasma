@@ -215,6 +215,7 @@
             <button class="btn" id="switch_variety">Switch Variety</button>
         </div>
 
+        <div id="desktop_layout">
         <section id="slider_container" style='<?=(!empty($preloaded_miasma)) ? 'display: block;' : 'display: none;' ?>'>
             <div class="thumbnail thumbnail_slider" id="prevSlide"> </div>
 
@@ -296,6 +297,7 @@
                     <? } ?>
                 </div>
             </div>
+        </div>
         </div>
 
         <div style='height: 50px; width: 100%;'>
