@@ -217,8 +217,17 @@
 
         <div id="desktop_layout">
         <section id="slider_container" style='<?=(!empty($preloaded_miasma)) ? 'display: block;' : 'display: none;' ?>'>
-            <div class="thumbnail thumbnail_slider" id="prevSlide"> </div>
+            <div class="preview_row">
+                <div class="desktop_cell preview_cell">
+                    <div class="thumbnail thumbnail_slider" id="prevSlide"> </div>
+                </div>
 
+                <div class="desktop_cell preview_cell">
+                    <div class="thumbnail2 thumbnail_slider" id="nextSlide"> </div>
+                </div>
+            </div>
+
+            <div class="desktop_cell main_cell">
             <div class="slider"  id="main_slider">
                 <?
                     foreach ($folders as $folder) {
@@ -250,8 +259,7 @@
                     }
                 ?>
             </div>
-
-            <div class="thumbnail2 thumbnail_slider" id="nextSlide"> </div>
+            </div>
         </section>
 
         <section id="mobile_view" style='display: none;'>
