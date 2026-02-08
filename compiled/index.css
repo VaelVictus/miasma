@@ -673,7 +673,7 @@ img {
 @media only screen and (min-width: 821px) {
   #desktop_layout {
     display: grid;
-    grid-template-columns: minmax(320px, 1fr) minmax(640px, 2fr);
+    grid-template-columns: minmax(450px, 1fr) minmax(640px, 2fr);
     grid-template-areas: "notes slider";
     align-items: start;
     gap: 30px;
@@ -699,7 +699,7 @@ img {
   #slider_container .preview_row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     gap: 20px;
   }
   #slider_container .desktop_cell {
@@ -712,21 +712,22 @@ img {
   #slider_container .preview_cell {
     flex: 1 1 0;
     min-height: 260px;
+    aspect-ratio: 1/1;
   }
   #slider_container .main_cell {
     min-height: 420px;
   }
   #slider_container .thumbnail_slider {
     margin-top: 0;
-    height: auto;
+    height: 100%;
     width: 100%;
-    aspect-ratio: 1/1;
-    max-width: 260px;
+    aspect-ratio: auto;
+    max-width: none;
     box-shadow: none;
   }
   #main_slider {
     width: 100%;
-    height: auto;
+    height: 100%;
     min-height: 420px;
     box-shadow: none;
   }
