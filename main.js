@@ -512,7 +512,22 @@
         const downloadButton = document.createElement('a');
         downloadButton.className = 'audio-download';
         downloadButton.href = encodeURI(file.path);
-        downloadButton.download = file.filename || '';
+        
+        // generate download filename: {miasma_prefix}_{display_name}.mp3
+        let download_filename = '';
+        if (state.currentFolder && file.displayName && window.miasmaDownloadPrefixes) {
+            const prefix = window.miasmaDownloadPrefixes[state.currentFolder];
+            if (prefix) {
+                const display_name_snake = file.displayName.toLowerCase().replace(/\s+/g, '_');
+                download_filename = `${prefix}_${display_name_snake}.mp3`;
+            } else {
+                download_filename = file.filename || '';
+            }
+        } else {
+            download_filename = file.filename || '';
+        }
+        downloadButton.download = download_filename;
+        downloadButton.dataset.downloadName = download_filename;
         downloadButton.title = 'Download audio';
         downloadButton.setAttribute('aria-label', `Download ${file.displayName}`);
 

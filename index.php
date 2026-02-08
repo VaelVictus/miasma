@@ -92,6 +92,44 @@
         'waylemap2' => ['group' => 'waylemap', 'order' => 1]
     ];
 
+    // download name prefixes for audio files - maps folder name to download prefix
+    // based on option text, ignoring brackets and converting to snake_case
+    $download_name_prefixes = [
+        'player' => 'aboard_vessel_iberian_sample',
+        'bestiary' => 'a_peripheral_bestiary',
+        'bindlestiff' => 'bindlestiff',
+        'rosetto' => 'dear_rosetto',
+        'hislatitude' => 'his_latitude_the_stars',
+        'incineration' => 'incineration_order',
+        'jenny' => 'jenny_garganta',
+        'potential' => 'loss_of_potential',
+        'macrophile' => 'macrophile',
+        'gates' => 'no_ingress',
+        'guttering' => 'some_guttering',
+        'weevilhunt1' => 'the_abbieannia_problem',
+        'frontispiece' => 'the_bowspirit',
+        'cambium' => 'the_cambium',
+        'cambium2' => 'the_cambium_alternate',
+        'diplomat' => 'the_diplomat',
+        'address' => 'the_dunnage_label',
+        'fretgay' => 'the_fretgay',
+        'weevil' => 'the_pageant_weevil',
+        'pilot2' => 'the_pilots_book_fragment',
+        'pilot' => 'the_pilots_book',
+        'weevilhunt2' => 'the_roasting_dance',
+        'riverupstairs' => 'the_river_upstairs',
+        'semestress' => 'the_semestress',
+        'tightwalk' => 'the_tight_walk',
+        'vaseandcup' => 'the_vase_and_the_cup',
+        'waylemap' => 'the_wayle_map',
+        'waylemap2' => 'the_wayle_map_alternate',
+        'weevilhunt3' => 'the_weevil_hunt',
+        'worstcook' => 'the_worst_cook',
+        'pervertslimbs' => 'up_amongst_a_perverts_limbs',
+        'vignettes' => 'vignettes_on_a_disaster',
+        'yourgreatwork' => 'your_great_work'
+    ];
+
     function generateOptions($folders) {
         global $preloaded_miasma;
         
@@ -263,6 +301,9 @@
         <div style='height: 50px; width: 100%;'>
         </div>
 
+        <script>
+            window.miasmaDownloadPrefixes = <?=json_encode($download_name_prefixes)?>;
+        </script>
         <script src="main.js?modified=<?=time()?>" defer></script>
     </body>
 </html>
