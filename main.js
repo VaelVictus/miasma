@@ -817,9 +817,9 @@
                 incomingSlide.classList.remove(actionClasses[0]);
                 activeSlide.classList.remove(actionClasses[1], 'active');
                 this.current_index = nextIndex;
+                this.setIndices();
                 this.showSlide(this.current_index);
                 this.is_sliding = false;
-                this.setIndices();
             };
 
             incomingSlide.classList.add(actionClasses[0], 'active');
@@ -1244,9 +1244,10 @@
             active_button.classList.add('active');
         }
 
-        // scroll tabs into view if needed
+        // on desktop, do not auto-scroll on tab click; keep behavior on mobile only
         const tabs_element = notes ? notes.querySelector('.tabs') : null;
-        if (tabs_element) {
+        const isMobileView = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
+        if (tabs_element && isMobileView) {
             tabs_element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
