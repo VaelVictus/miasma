@@ -343,6 +343,10 @@ img {
   backdrop-filter: blur(2px);
 }
 
+.tabcontent.active {
+  display: block;
+}
+
 .audio-panel {
   display: flex;
   flex-direction: column;

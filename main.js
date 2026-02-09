@@ -731,7 +731,10 @@
         toggleDesktopControl(controls.prevSlide, slider.prev_item_index);
         toggleDesktopControl(controls.nextSlide, slider.next_item_index);
 
-        $('.slider-item:visible .zoom').magnify({ speed: 0, magnify: 1.5 });
+        // initialize magnify only when jquery + plugin are available
+        if (window.$ && typeof window.$ === 'function' && window.$.fn && typeof window.$.fn.magnify === 'function') {
+            window.$('.slider-item:visible .zoom').magnify({ speed: 0, magnify: 1.5 });
+        }
     }
 
     class Slider {
@@ -906,7 +909,7 @@
             mobileView: getByIdRequired('mobile_view'),
             chooseMiasma: getByIdRequired('choose_miasma'),
             notes: getByIdRequired('notes'),
-            gameNotes: getByIdRequired('game_notes'),
+            gameNotes: getByIdRequired('game_notes_container'),
             audio: {
                 container: getByIdRequired('audio_container'),
                 tabButton: document.getElementById('audio_notes_tab'),
@@ -939,6 +942,55 @@
                 transcription: document.getElementById('text_transcription')
             }
         };
+    }
+
+    function ensureNotesPanels() {
+        const notes = document.getElementById('notes');
+        if (!notes) {
+            return;
+        }
+
+        const tabs = notes.querySelector('.tabs');
+        if (!tabs) {
+            return;
+        }
+
+        const ensure_panel = (panel_id) => {
+            let panel = document.getElementById(panel_id);
+            if (panel) {
+                return panel;
+            }
+
+            panel = document.createElement('div');
+            panel.id = panel_id;
+            panel.className = 'tabcontent';
+            tabs.insertAdjacentElement('afterend', panel);
+            return panel;
+        };
+
+        const game_notes_panel = ensure_panel('game_notes');
+        const audio_notes_panel = ensure_panel('audio_notes');
+        const text_transcription_panel = ensure_panel('text_transcription');
+        const player_notes_panel = ensure_panel('player_notes');
+
+        const game_notes_container = document.getElementById('game_notes_container');
+        if (game_notes_container && game_notes_container.parentElement !== game_notes_panel) {
+            game_notes_panel.appendChild(game_notes_container);
+        }
+
+        const audio_container = document.getElementById('audio_container');
+        if (audio_container && audio_container.parentElement !== audio_notes_panel) {
+            audio_notes_panel.appendChild(audio_container);
+        }
+
+        const text_transcription_container = document.getElementById('text_transcription_container');
+        if (text_transcription_container && text_transcription_container.parentElement !== text_transcription_panel) {
+            text_transcription_panel.appendChild(text_transcription_container);
+        }
+
+        if (!player_notes_panel.innerHTML.trim()) {
+            player_notes_panel.textContent = 'Future development will see the addition of player-submitted trottering notes.';
+        }
     }
 
     function buildVarietyGroups() {
@@ -1122,31 +1174,49 @@
     }
 
     function openTab(evt, tabName) {
-        const { tabs, tabContents, notes } = state.dom;
-        if (!tabs || !tabContents) {
+        if (!tabName) {
             return;
         }
 
-        Object.entries(tabContents).forEach(([key, content]) => {
-            if (!content) {
-                return;
-            }
+        const notes = state.dom?.notes || document.getElementById('notes');
+        const target = document.getElementById(tabName);
+        if (!target) {
+            console.warn(`openTab: target element "${tabName}" not found`);
+            return;
+        }
 
-            const isActive = content.id === tabName;
-            if (isActive) {
-                $(content).show();
-            } else {
-                $(content).hide();
-            }
-
-            content.classList.toggle('active', isActive);
-
-            const button = tabs[key];
-            if (button) {
-                button.classList.toggle('active', isActive);
-            }
+        // hide all tab contents
+        const tab_contents = notes ? Array.from(notes.querySelectorAll('.tabcontent')) : Array.from(document.querySelectorAll('.tabcontent'));
+        tab_contents.forEach((content) => {
+            content.style.display = 'none';
+            content.classList.remove('active');
         });
 
+        // show target tab content - use both class and inline style for reliability
+        target.classList.add('active');
+        target.style.display = 'block';
+
+        // update button states
+        const tab_buttons = notes ? Array.from(notes.querySelectorAll('.tabs .tablinks')) : Array.from(document.querySelectorAll('.tabs .tablinks'));
+        tab_buttons.forEach((button) => button.classList.remove('active'));
+
+        // determine which button to activate
+        let active_button = null;
+        if (evt) {
+            // if called from onclick, evt.currentTarget or evt.target should be the button
+            active_button = evt.currentTarget || evt.target;
+        }
+        
+        // fallback: find button by ID pattern
+        if (!active_button || !active_button.classList || !active_button.classList.contains('tablinks')) {
+            active_button = document.getElementById(`${tabName}_tab`);
+        }
+
+        if (active_button && active_button.classList) {
+            active_button.classList.add('active');
+        }
+
+        // scroll tabs into view if needed
         const tabs_element = notes ? notes.querySelector('.tabs') : null;
         if (tabs_element) {
             tabs_element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1200,6 +1270,7 @@
 
     function initialise() {
         state.dom = cacheDom();
+        ensureNotesPanels();
         resetAudioState('Select a miasma to check for audio or sounds.');
         resetTranscriptionState('Select a miasma to check for text transcription.');
         buildVarietyGroups();

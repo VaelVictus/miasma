@@ -269,7 +269,7 @@
             </div>
         </section>
 
-        <div id="notes" style='display: none;'>
+        <div id="notes" style='<?=(!empty($preloaded_miasma)) ? '' : 'display: none;' ?>'>
             <h2>Trottering Notes</h2>
             
             <div class="tabs">
@@ -280,9 +280,13 @@
             </div>
 
             <div id="game_notes" class="tabcontent active">
-                <? if (!empty($preloaded_miasma)) {
-                    echo $preloaded_notes;
-                } ?>
+                <div id="game_notes_container">
+                    <? if (!empty($preloaded_miasma)) {
+                        echo $preloaded_notes;
+                    } else { ?>
+                        <p class="notes-placeholder" id="notes_placeholder">Select a miasma to load notes.</p>
+                    <? } ?>
+                </div>
             </div>
 
             <div id="audio_notes" class="tabcontent">
