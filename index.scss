@@ -639,6 +639,7 @@ img {
   min-height: 300px; // stops flash on new img download
   display: none;
   transition: transform $transition-slow;
+  text-align: center;
 
   &.active,
   &.prev-item,
@@ -752,13 +753,14 @@ img {
 
   #slider_container .preview_row {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
+    justify-content: space-around;
     align-items: stretch;
     gap: 40px;
   }
 
   #slider_container .desktop_cell {
-    @include box-shadow(0 0 15px 2px $box-shadow-color);
+    // @include box-shadow(0 0 15px 2px $box-shadow-color);
     display: flex;
     align-items: center;
     justify-content: center;

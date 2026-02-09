@@ -592,6 +592,7 @@ img {
   min-height: 300px;
   display: none;
   transition: transform 2s;
+  text-align: center;
 }
 .slider-item.active, .slider-item.prev-item, .slider-item.next-item {
   display: block;
@@ -698,12 +699,11 @@ img {
   }
   #slider_container .preview_row {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: stretch;
     gap: 40px;
   }
   #slider_container .desktop_cell {
-    box-shadow: 0 0 15px 2px rgb(49, 43, 35);
     display: flex;
     align-items: center;
     justify-content: center;
