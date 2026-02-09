@@ -714,6 +714,23 @@
             }
         });
 
+        const toggleDesktopControl = (element, slideIndex) => {
+            if (!element) {
+                return;
+            }
+
+            const hasDestination = Number.isInteger(slideIndex) && slideIndex !== slider.current_index;
+            element.style.display = hasDestination ? '' : 'none';
+
+            const previewCell = element.closest('.preview_cell');
+            if (previewCell) {
+                previewCell.style.display = hasDestination ? '' : 'none';
+            }
+        };
+
+        toggleDesktopControl(controls.prevSlide, slider.prev_item_index);
+        toggleDesktopControl(controls.nextSlide, slider.next_item_index);
+
         $('.slider-item:visible .zoom').magnify({ speed: 0, magnify: 1.5 });
     }
 

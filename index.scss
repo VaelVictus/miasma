@@ -745,7 +745,7 @@ img {
 
   #slider_container {
     grid-area: slider;
-    display: flex !important;
+    display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: stretch;
