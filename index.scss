@@ -727,7 +727,7 @@ img {
     grid-template-columns: minmax(450px, 1fr) minmax(640px, 2fr);
     grid-template-areas: "notes slider";
     align-items: start;
-    gap: 30px;
+    gap: 50px;
     width: min(95vw, 1320px);
     margin: 25px auto 0;
   }
@@ -754,7 +754,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    gap: 20px;
+    gap: 40px;
   }
 
   #slider_container .desktop_cell {
@@ -766,13 +766,16 @@ img {
   }
 
   #slider_container .preview_cell {
-    flex: 1 1 0;
-    min-height: 260px;
+    flex: 0 1 220px;
+    min-height: 220px;
     aspect-ratio: 1 / 1;
   }
 
   #slider_container .main_cell {
     min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   #slider_container .thumbnail_slider {
@@ -789,6 +792,9 @@ img {
     height: 100%;
     min-height: 420px;
     box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   #slider_container .thumbnail,
