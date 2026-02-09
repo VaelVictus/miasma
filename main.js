@@ -714,12 +714,14 @@
             }
         });
 
+        const hasMultipleVisibleSlides = slider.visible_indices.length > 1;
+
         const toggleDesktopControl = (element, slideIndex) => {
             if (!element) {
                 return;
             }
 
-            const hasDestination = Number.isInteger(slideIndex) && slideIndex !== slider.current_index;
+            const hasDestination = hasMultipleVisibleSlides && Number.isInteger(slideIndex);
             element.style.display = hasDestination ? '' : 'none';
 
             const previewCell = element.closest('.preview_cell');
@@ -757,9 +759,29 @@
 
         setIndices() {
             const visibleCount = this.visible_indices.length;
+
+            if (visibleCount === 0) {
+                this.prev_item_index = null;
+                this.next_item_index = null;
+                return;
+            }
+
+            if (visibleCount === 1) {
+                this.current_index = this.visible_indices[0];
+                this.prev_item_index = this.current_index;
+                this.next_item_index = this.current_index;
+                this.preloadImages();
+                return;
+            }
+
             const currentVisibleIndex = this.visible_indices.indexOf(this.current_index);
-            this.prev_item_index = this.visible_indices[(currentVisibleIndex - 1 + visibleCount) % visibleCount];
-            this.next_item_index = this.visible_indices[(currentVisibleIndex + 1) % visibleCount];
+            const normalizedCurrentVisibleIndex = currentVisibleIndex === -1 ? 0 : currentVisibleIndex;
+            if (currentVisibleIndex === -1) {
+                this.current_index = this.visible_indices[normalizedCurrentVisibleIndex];
+            }
+
+            this.prev_item_index = this.visible_indices[(normalizedCurrentVisibleIndex - 1 + visibleCount) % visibleCount];
+            this.next_item_index = this.visible_indices[(normalizedCurrentVisibleIndex + 1) % visibleCount];
             this.preloadImages();
         }
 
@@ -1185,6 +1207,16 @@
             return;
         }
 
+        const clickedButton = evt?.currentTarget || evt?.target;
+        const isSameActiveTab = target.classList.contains('active')
+            && clickedButton
+            && clickedButton.classList
+            && clickedButton.classList.contains('active');
+
+        if (isSameActiveTab) {
+            return;
+        }
+
         // hide all tab contents
         const tab_contents = notes ? Array.from(notes.querySelectorAll('.tabcontent')) : Array.from(document.querySelectorAll('.tabcontent'));
         tab_contents.forEach((content) => {
@@ -1201,11 +1233,7 @@
         tab_buttons.forEach((button) => button.classList.remove('active'));
 
         // determine which button to activate
-        let active_button = null;
-        if (evt) {
-            // if called from onclick, evt.currentTarget or evt.target should be the button
-            active_button = evt.currentTarget || evt.target;
-        }
+        let active_button = clickedButton || null;
         
         // fallback: find button by ID pattern
         if (!active_button || !active_button.classList || !active_button.classList.contains('tablinks')) {
