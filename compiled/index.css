@@ -693,6 +693,34 @@ img {
     position: sticky;
     top: 20px;
     align-self: start;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  #notes .tabs {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #222;
+    background-image: url(../img/textures/tactile-noise-dark.png);
+  }
+  #text_transcription {
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #667072 #312b23;
+  }
+  #text_transcription::-webkit-scrollbar {
+    width: 10px;
+  }
+  #text_transcription::-webkit-scrollbar-track {
+    background: #312b23;
+  }
+  #text_transcription::-webkit-scrollbar-thumb {
+    background: #667072;
+    border-radius: 5px;
+  }
+  #text_transcription::-webkit-scrollbar-thumb:hover {
+    background: #910000;
   }
   #slider_container {
     grid-area: slider;

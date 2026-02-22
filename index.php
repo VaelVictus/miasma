@@ -262,7 +262,7 @@
             </div>
         </section>
 
-        <section id="mobile_view" style='display: none;'>
+        <section id="mobile_view">
             <div id='mobile_grid'>
                 <div class="prev_button" id="prev_button"></div>
                 <div class="next_button" id="next_button"></div>

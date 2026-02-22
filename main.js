@@ -857,7 +857,7 @@
             }
 
             if (sliderContainer) sliderContainer.style.display = 'flex';
-            if (mobileView) mobileView.style.display = 'flex';
+            if (mobileView) mobileView.style.display = '';
             if (notes) notes.style.display = 'block';
             if (chooseMiasma) chooseMiasma.style.display = 'none';
 
