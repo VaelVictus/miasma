@@ -4,7 +4,7 @@
   "description": "Black Crown: Exhumed miasma viewer",
   "main": "slideShow.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test tests/*.test.js",
     "build": "terser main.js -o ./compiled/main.js -c",
     "style": "sass --watch index.scss:./compiled/index.css"
   },

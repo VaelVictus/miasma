@@ -1167,6 +1167,7 @@
         }
 
         document.body.setAttribute('data-current-miasma', normalizedFolder);
+        window.miasmaInteractive.select(normalizedFolder);
 
         if (updateHistory) {
             const path = normalizedFolder ? `/miasma/${normalizedFolder}` : '/miasma/';
@@ -1262,7 +1263,8 @@
         safeAddListener(switchVarietyButton, 'click', () => switchVariety());
 
         window.addEventListener('keydown', (event) => {
-            if (!state.slider) {
+            if (!state.slider || document.getElementById('gallery_panel').hidden
+                || event.target.closest('input, select, textarea, button, [contenteditable="true"]')) {
                 return;
             }
             if (event.code === 'ArrowRight') {

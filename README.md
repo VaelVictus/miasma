@@ -20,6 +20,24 @@ php -S localhost:8000
 - `index.scss` and `compiled/`: styles and built css/js
 - `object_data/`: json, images, and optional audio per object
 
+## interactive specimens
+
+Each specimen opens in Interactive, with the existing viewer available under Gallery.
+Show hotspots reveals clickable regions; arrow keys and the visible controls change
+views. Reset object restores that specimen's defaults. Progress is retained when
+switching tabs or specimens during the current page visit. Leaving Interactive pauses
+its audio. Completion dialogs include the original narrative, unlock code, and archived
+continuation link where supplied by the object definition.
+
+`interactive-engine.js` runs the trusted, repository-owned `object_data/*/data.json`
+state graphs and maps archived asset names to this repo's optimized files.
+`interactive.js` handles the tabs, SVG hotspots, audio, and dialogs;
+`interactive.css` styles them directly. Nothing is loaded from the experimental
+`blackcrown_object_reconstruction` folder or a remote asset archive.
+
+Run all regression tests and the per-specimen interaction audit with `npm test`.
+See [the audit report](docs/interactive-audit.md) for findings, coverage, and limits.
+
 ## build notes
 
 if you need to rebuild css/js, install dependencies and run your build pipeline:

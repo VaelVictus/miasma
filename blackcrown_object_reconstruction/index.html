@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Black Crown Object Reconstruction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <div class="eyebrow">THE BLACK CROWN PROJECT / OBJECT RECONSTRUCTION</div>
+            <h1 id="object_title">Object</h1>
+            <p id="object_description"></p>
+        </div>
+        <div class="topbar_controls">
+            <label>
+                Object
+                <select id="object_select"></select>
+            </label>
+            <label class="debug_label">
+                <input id="debug_hotspots" type="checkbox">
+                Show hotspots
+            </label>
+            <button id="reset_button" type="button">Reset object</button>
+        </div>
+    </header>
+
+    <main class="layout">
+        <section class="object_column">
+            <div id="stage" class="stage" aria-label="interactive object">
+                <img id="object_image" alt="">
+                <svg id="hotspot_layer" class="hotspot_layer" viewBox="0 0 800 600" preserveAspectRatio="none" aria-label="interactive hotspots"></svg>
+                <div id="controls_layer" class="controls_layer"></div>
+                <div id="asset_notice" class="asset_notice" hidden>
+                    Original image could not be loaded. Run <code>download_assets.py</code> while online, or check your connection.
+                </div>
+            </div>
+            <div class="status_row">
+                <span id="state_status"></span>
+                <span class="hint">Rotate with the edge arrows. Some states contain invisible click regions.</span>
+            </div>
+            <div class="source_row">source: <span id="source_status">loading archive</span></div>
+        </section>
+
+        <aside id="infobox" class="infobox">
+            <div class="infobox_header">
+                <span>EXCAVATION NOTES</span>
+                <button id="infobox_close" type="button" aria-label="close expanded note">×</button>
+            </div>
+            <div id="infobox_content" class="infobox_content"></div>
+        </aside>
+    </main>
+
+    <div id="completion_overlay" class="completion_overlay" hidden>
+        <div class="completion_card">
+            <div class="eyebrow">EXCAVATION COMPLETE</div>
+            <p id="completion_text"></p>
+            <div class="completion_actions">
+                <a id="completion_link" target="_blank" rel="noreferrer"></a>
+                <button id="completion_close" type="button">Continue examining</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Reconstruction viewer: original object data, imagery and audio remain the work released in the Black Crown Project archive. This viewer implements the archived state/hotspot instructions in modern browser JavaScript.
+    </footer>
+
+    <script src="manifest.js"></script>
+    <script src="objects.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

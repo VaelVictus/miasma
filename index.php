@@ -160,6 +160,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./compiled/magnify.min.css" />
+        <link rel="stylesheet" href="./interactive.css?m=<?=time()?>" />
         <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1" />
         <title>Miasma Viewer | Black Crown: Exhumed</title>
         <meta name="description" content="Browse Black Crown: Exhumed miasma specimens with zoomable imagery, notes, and audio." />
@@ -215,6 +216,30 @@
             <button class="btn" id="switch_variety">Switch Variety</button>
         </div>
 
+        <nav id="specimen_tabs" role="tablist" aria-label="Specimen view" hidden>
+            <button type="button" class="btn" id="interactive_tab" role="tab" aria-controls="interactive_panel" aria-selected="true">Interactive</button>
+            <button type="button" class="btn" id="gallery_tab" role="tab" aria-controls="gallery_panel" aria-selected="false" tabindex="-1">Gallery + Info</button>
+        </nav>
+        <section id="interactive_panel" role="tabpanel" aria-labelledby="interactive_tab" hidden>
+            <div class="interactive_toolbar">
+                <button type="button" class="btn" id="interactive_reset">Reset object</button>
+                <label><input type="checkbox" id="show_hotspots"> Show hotspots</label>
+            </div>
+            <p id="interactive_status" role="status"></p>
+            <div id="interactive_stage" tabindex="0" aria-label="Interactive specimen. Use arrow keys to turn or click an object to explore.">
+                <img id="interactive_image" alt="" draggable="false" hidden>
+                <svg id="interactive_hotspots" xmlns="http://www.w3.org/2000/svg" aria-label="Object hotspots"></svg>
+                <div id="interactive_controls"></div>
+            </div>
+            <p class="interactive_hint">Turn with the arrows. Touch the object to explore.</p>
+            <button type="button" class="btn" id="interactive_completion" hidden>Revisit discovery</button>
+            <dialog id="interactive_dialog" aria-labelledby="interactive_dialog_title">
+                <h2 id="interactive_dialog_title">Discovery</h2>
+                <div id="interactive_dialog_content"></div>
+                <form method="dialog"><button class="btn">Close</button></form>
+            </dialog>
+        </section>
+        <div id="gallery_panel" role="tabpanel" aria-labelledby="gallery_tab" hidden>
         <div id="desktop_layout">
         <section id="slider_container" style='<?=(!empty($preloaded_miasma)) ? 'display: block;' : 'display: none;' ?>'>
             <div class="preview_row">
@@ -311,13 +336,19 @@
             </div>
         </div>
         </div>
+        </div>
 
         <div style='height: 50px; width: 100%;'>
         </div>
 
         <script>
             window.miasmaDownloadPrefixes = <?=json_encode($download_name_prefixes)?>;
+            window.miasmaInfoAvailable = <?=json_encode(array_values(array_filter(array_values($folders), function ($folder) {
+                return is_file(__DIR__ . '/object_data/' . $folder . '/info.html');
+            })))?>;
         </script>
+        <script src="interactive-engine.js?modified=<?=time()?>" defer></script>
+        <script src="interactive.js?modified=<?=time()?>" defer></script>
         <script src="main.js?modified=<?=time()?>" defer></script>
     </body>
 </html>

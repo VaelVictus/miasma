@@ -204,13 +204,7 @@
 			],
 			"ui_actions": {
 				"back": "popProperty();"
-			},
-			"hotspots": [
-			{
-				"polygon":[251,305,334,359,485,370,574,306,499,194,404,168,324,191],
-				"on_click": "setProperty('view','open_bowl');"
-			}		
-			]
+			}
 		}
 	]
 }

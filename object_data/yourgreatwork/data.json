@@ -159,7 +159,7 @@
 					},
 					{
 						"polygon":[345,265,329,286,319,307,224,306,222,154,333,140],
-						"on_click": "setProperty('doors','21'); playSound('panel.mp3');"
+						"on_click": "setProperty('doors','1'); playSound('panel.mp3');"
 					},
 					{
 						"polygon":[404,141,510,142,505,314,435,316,431,281,401,252],

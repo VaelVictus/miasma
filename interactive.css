@@ -1,0 +1,47 @@
+#specimen_tabs[hidden], #interactive_panel[hidden], #gallery_panel[hidden],
+#interactive_panel [hidden] { display: none !important; }
+
+#specimen_tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 16px auto 12px;
+}
+#specimen_tabs [aria-selected="false"] { filter: grayscale(40%); opacity: 0.9; }
+#specimen_tabs .btn:focus-visible, #interactive_panel button:focus-visible,
+#interactive_panel a:focus-visible { outline: 2px solid #e1b98a; outline-offset: 3px; }
+#interactive_panel { width: min(95%, 960px); margin: 0 auto; color: #ddd4c7; }
+.interactive_toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; padding: 0 5%; }
+.interactive_toolbar .btn { font-size: 13px; }
+.interactive_toolbar label { cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.interactive_toolbar input { accent-color: #a82217; }
+#interactive_status:empty { display: none; }
+#interactive_status { text-align: center; }
+#interactive_stage { position: relative; margin: auto; width: 100%; background: #000; isolation: isolate; }
+#interactive_image { display: block; width: 100%; height: 100%; position: absolute; inset: 0; object-fit: fill; }
+#interactive_hotspots, #interactive_controls { position: absolute; inset: 0; width: 100%; height: 100%; }
+#interactive_hotspots polygon { fill: transparent; stroke: transparent; stroke-width: 2; cursor: pointer; pointer-events: all; }
+#interactive_stage.show-hotspots polygon { fill: #c934272e; stroke: #d47c60; vector-effect: non-scaling-stroke; }
+#interactive_hotspots polygon:focus-visible { outline: none; fill: #d6b58155; stroke: #f2d5a9; }
+#interactive_controls { pointer-events: none; }
+.object_control { position: absolute; pointer-events: auto; width: 44px; height: 44px; border: 1px solid #7c6853; border-radius: 3px; background: #1c1916e6; color: #eee1ca; font-size: 24px; cursor: pointer; }
+.object_control:hover { background: #750e09; }
+.object_control.top { top: 8px; }
+.object_control.bottom { bottom: 8px; }
+.object_control.left { left: 8px; }
+.object_control.right { right: 8px; }
+.object_control.center { left: calc(50% - 22px); }
+.object_control.middle { top: calc(50% - 22px); }
+.interactive_hint { text-align: center; color: #a3988b; font-size: 13px; }
+#interactive_panel.zoomed { width: min(98%, 1400px); }
+#interactive_dialog { color: #e1d7c8; background: #211d19 url(img/textures/tactile-noise-dark.png); border: 1px solid #76604b; border-radius: 4px; max-width: 620px; width: calc(100% - 32px); max-height: 85vh; padding: 26px; line-height: 1.8; }
+#interactive_dialog::backdrop { background: #000b; }
+#interactive_dialog h2 { margin: 0 0 16px; font-size: 21px; }
+#interactive_dialog a { color: #e6b787; }
+#interactive_dialog code { overflow-wrap: anywhere; user-select: all; }
+#interactive_dialog form { margin-top: 24px; text-align: right; }
+@media (max-width: 600px) {
+    #specimen_tabs { margin: 18px auto; }
+    .interactive_toolbar { font-size: 12px; }
+    #interactive_dialog { padding: 18px; }
+}
