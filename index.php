@@ -230,8 +230,8 @@
         </nav>
         <section id="interactive_panel" role="tabpanel" aria-labelledby="interactive_tab" hidden>
             <div class="interactive_toolbar">
-                <button type="button" class="btn" id="interactive_reset">Reset object</button>
-                <label><input type="checkbox" id="show_hotspots"> Show hotspots</label>
+                <button type="button" class="btn" id="interactive_reset">Reset Object</button>
+                <label><input type="checkbox" id="show_hotspots"> Show Hotspots</label>
             </div>
             <p id="interactive_status" role="status"></p>
             <div id="interactive_stage" tabindex="0" aria-label="Interactive specimen. Use arrow keys to turn or click an object to explore.">
