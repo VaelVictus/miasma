@@ -79,9 +79,9 @@
                 line.append('Unlock code: ', code);
                 dialogContent.append(line);
             }
-            if (/^https?:\/\//i.test(engine.data.link || '')) {
+            if (engine.data.code) {
                 const link = document.createElement('a');
-                link.href = engine.data.link;
+                link.href = `${window.miasmaGameBaseUrl}/code/${encodeURIComponent(engine.data.code)}`;
                 link.textContent = engine.data.completion_link_text || 'Continue';
                 link.target = '_blank';
                 link.rel = 'noopener noreferrer';

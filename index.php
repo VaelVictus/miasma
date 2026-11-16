@@ -1,4 +1,12 @@
 <?
+    // Match gam3's local hosts; also support the loopback addresses used by previews.
+    $server_name = strtolower($_SERVER['SERVER_NAME'] ?? '');
+    $http_host = strtolower($_SERVER['HTTP_HOST'] ?? '');
+    $is_local = in_array($server_name, ['localhost', '127.0.0.1', '::1', '[::1]'], true)
+        || strpos($server_name, '.loc') !== false
+        || strpos($http_host, '192.168') !== false;
+    $game_base_url = $is_local ? 'https://gam3.loc' : 'https://blackcrownexhumed.com';
+
     // Miasma
     $folders = [
         'ABOARD_VESSEL_(IBERIAN)_SAMPLE::25pps' => 'player',
@@ -175,7 +183,7 @@
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Miasma Viewer - Black Crown: Exhumed" />
         <meta property="og:description" content="Object viewer for the browser-based horror game Black Crown: Exhumed" />
-        <meta property="og:url" content="https://blackcrownexhumed.com/miasma_viewer" />
+        <meta property="og:url" content="<?=$game_base_url?>/miasma_viewer" />
         <meta property="og:site_name" content="Miasma Viewer" />
 
         <script src="./compiled/jquery-2.2.4.min.js" defer></script>
@@ -206,7 +214,7 @@
             <p>You may also use your keyboard's arrow keys, as your digits allow.</p>
 
             <div style='margin-top: 25px;'>
-                <a href='https://blackcrownexhumed.com'>
+                <a href='<?=$game_base_url?>'>
                     <button class='btn'>Return to the Game</button>
                 </a>
             </div>
@@ -342,6 +350,7 @@
         </div>
 
         <script>
+            window.miasmaGameBaseUrl = <?=json_encode($game_base_url)?>;
             window.miasmaDownloadPrefixes = <?=json_encode($download_name_prefixes)?>;
             window.miasmaInfoAvailable = <?=json_encode(array_values(array_filter(array_values($folders), function ($folder) {
                 return is_file(__DIR__ . '/object_data/' . $folder . '/info.html');
