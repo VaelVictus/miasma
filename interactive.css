@@ -10,7 +10,7 @@
 #specimen_tabs [aria-selected="false"] { filter: grayscale(80%); opacity: 0.9; }
 #specimen_tabs .btn:focus-visible, #interactive_panel button:focus-visible,
 #interactive_panel a:focus-visible { outline: 2px solid #e1b98a; outline-offset: 3px; }
-#interactive_panel { width: min(95%, 960px); margin: 0 auto; color: #ddd4c7; }
+#interactive_panel { width: min(95%, 960px); margin: 0 auto; color: #ddd4c7; user-select: none; }
 .interactive_toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; padding: 0 5%; }
 .interactive_toolbar .btn { font-size: 13px; }
 .interactive_toolbar label { cursor: pointer; display: flex; align-items: center; gap: 6px; }
