@@ -22,7 +22,9 @@
 #interactive_hotspots, #interactive_controls { position: absolute; inset: 0; width: 100%; height: 100%; }
 #interactive_hotspots polygon { fill: transparent; stroke: transparent; stroke-width: 2; cursor: pointer; pointer-events: all; }
 #interactive_stage.show-hotspots polygon { fill: #c934272e; stroke: #d47c60; vector-effect: non-scaling-stroke; }
-#interactive_hotspots polygon:focus-visible { outline: none; fill: #d6b58155; stroke: #f2d5a9; }
+#interactive_hotspots polygon:focus,
+#interactive_hotspots polygon:focus-visible { outline: none; }
+#interactive_stage.show-hotspots polygon:focus-visible { fill: #d6b58155; stroke: #f2d5a9; }
 #interactive_controls { pointer-events: none; }
 .object_control { position: absolute; pointer-events: auto; width: 44px; height: 44px; border: 1px solid #7c6853; border-radius: 3px; background: #1c1916e6; color: #eee1ca; font-size: 24px; cursor: pointer; }
 .object_control:hover { background: #750e09; }
